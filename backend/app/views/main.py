@@ -15,6 +15,7 @@ def index():
 @app.route('/user/<username>/')
 def user_info(username):
 	user = User.query.filter(User.username == username).one()
-	if not user:
+	if user:
+		return render_template('user_info.html', user=user)
+	else:
 		return 'User not found.', 404
-	return render_template('user_info.html', user=user)

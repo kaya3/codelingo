@@ -1,3 +1,5 @@
+__all__ = ['User']
+
 from app import app, db
 from flask import url_for
 
