@@ -24,7 +24,7 @@ class User(db.Model):
 		return User.query.filter(func.lower(User.username) == func.lower(username)).first()
 	
 	@staticmethod
-	def get_by_username(username):
+	def get_by_email(username):
 		return User.query.filter(func.lower(User.email) == func.lower(username)).first()
 	
 	def __init__(self, username, email, new_password=None):
