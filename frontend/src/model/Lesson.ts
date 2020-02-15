@@ -1,7 +1,7 @@
-import { Question } from './Question';
+import { Question } from "./Question";
 
 export type Lesson = {
-    lessonID: string,
-    title: string,
-    questions: Question[],
-}
+  language: string;
+  title: string;
+  questions: Question[];
+};

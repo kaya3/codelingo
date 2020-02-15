@@ -3,9 +3,8 @@ import React, { PureComponent, ReactNode } from "react";
 import { CodeBlock, dracula } from "react-code-blocks";
 
 interface Props {
-  code: string;
+  code: string[];
   language: string;
-  blank: string;
 }
 interface State {}
 

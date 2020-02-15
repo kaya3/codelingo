@@ -8,6 +8,9 @@ user2 = User('bob', 'bob@example.com', 'test')
 user3 = User('clive', 'clive@example.com', 'test')
 
 language = Language('python')
+user1.current_language = language
+user2.current_language = language
+
 skill = Skill('Lists', language, 1)
 
 lesson1 = Lesson(skill, 1)
