@@ -8,7 +8,7 @@ from app.models.user import User
 
 import passwordmeter
 
-def user_info(user):
+def json_user_info(user):
 	return jsonify({
 		'username': user.username,
 		'language': user.current_language.name if user.current_language else None,
@@ -28,12 +28,12 @@ def login():
 		return jsonify({ 'error': 'Incorrect username or password.' }), 401
 	else:
 		login_user(user, remember=True)
-		return user_info(user)
+		return json_user_info(user)
 
 @app.route('/who_am_i')
 def who_am_i():
 	if current_user.is_authenticated:
-		return user_info(current_user)
+		return json_user_info(current_user)
 	else:
 		return jsonify(None)
 
@@ -43,7 +43,7 @@ def user_info(user_id):
 	if not user:
 		return jsonify({ 'error': 'User not found.' }), 404
 	else:
-		return user_info(user)
+		return json_user_info(user)
 
 @app.route('/reset_password', methods=['POST'])
 def reset_password():
