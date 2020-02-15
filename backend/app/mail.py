@@ -5,7 +5,7 @@ from .decorators import run_in_thread
 
 noreply_address = app.config['NOREPLY_ADDRESS']
 
-def send_email(recipients, template, subject, sender=noreply_address, **kwargs)
+def send_email(recipients, template, subject, sender=noreply_address, **kwargs):
 	msg = Message(subject, sender=sender, recipients=recipients)
 	msg.body = render_template('mail/' + template + '.txt', subject=subject, **kwargs)
 	msg.html = render_template('mail/' + template + '.html', subject=subject, **kwargs)

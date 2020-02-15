@@ -73,6 +73,7 @@ class QuestionView extends PureComponent<Props, State> {
     );
   }
 
+  // Progress Bar and Back Button
   private renderHeader() {
     const { currentQuestionIndex, lesson } = this.state;
     return (
@@ -89,6 +90,7 @@ class QuestionView extends PureComponent<Props, State> {
     );
   }
 
+  // Next/Finish Lesson Button
   private renderButton() {
     const { lesson, currentQuestionIndex } = this.state;
 
@@ -109,6 +111,7 @@ class QuestionView extends PureComponent<Props, State> {
     );
   }
 
+  // Results screen the user lands on after finishing or failing the lesson
   private renderFinishScreen() {
     return (
       <div className="complete-screen d-flex justify-content-center align-items-center">
@@ -128,6 +131,7 @@ class QuestionView extends PureComponent<Props, State> {
     );
   }
 
+  // Loading screen when no lesson if found
   private renderLoadingScreen() {
     return (
       <div className="loading-area d-flex justify-content-center align-items-center">

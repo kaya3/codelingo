@@ -1,7 +1,7 @@
 __all__ = ['User']
 
 from app import app, db
-from flask import url_for
+from sqlalchemy import func
 
 hash_api = app.config['PASSWORD_HASH_API']
 hash_rounds = app.config['PASSWORD_HASH_ROUNDS']
@@ -21,8 +21,11 @@ class User(db.Model):
 	
 	@staticmethod
 	def get_by_username(username):
-		col = User.email if '@' in username else User.username
-		return User.query.filter(func.lower(col) == func.lower(username)).first()
+		return User.query.filter(func.lower(User.username) == func.lower(username)).first()
+	
+	@staticmethod
+	def get_by_email(username):
+		return User.query.filter(func.lower(User.email) == func.lower(username)).first()
 	
 	def __init__(self, username, email, new_password=None):
 		self.username = username
@@ -61,8 +64,10 @@ class User(db.Model):
 				db.session.commit()
 			return True
 		return False
+	
 	def check_tmp_password(self, password):
 		return hash_api.verify(password, self.tmp_password_hash)
+	
 	def set_password(self, new_password, old_password):
 		if not self.check_password(old_password):
 			return False
@@ -71,6 +76,7 @@ class User(db.Model):
 		self.tmp_password_hash = None
 		self.require_change_password = False
 		return True
+	
 	def generate_tmp_password(self):
 		from passlib.utils import generate_password
 		new_password = generate_password(default_password_length)

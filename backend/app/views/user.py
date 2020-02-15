@@ -2,10 +2,11 @@ from app import app, db
 from flask import request, jsonify
 from flask_login import login_user, logout_user, current_user, login_required
 from app.decorators import force_password_change
-from sqlalchemy import func
 
 from app.models.user import User
+from app.mail import send_email
 
+import re
 import passwordmeter
 
 def json_user_info(user):
@@ -15,15 +16,14 @@ def json_user_info(user):
 	})
 
 @app.route('/login', methods=['POST'])
-def login():
+def user_login():
 	if current_user.is_authenticated:
-		return 'You are already logged in.', 400
+		return jsonify({ 'error': 'You are already logged in.' }), 400
 	
 	username = request.form['username']
 	password = request.form['password']
-	action = request.form['action']
 	
-	user = User.get_by_username(username)
+	user = User.get_by_username(username) or User.get_by_email(username)
 	if not user or not user.check_password(password):
 		return jsonify({ 'error': 'Incorrect username or password.' }), 401
 	else:
@@ -45,17 +45,48 @@ def user_info(user_id):
 	else:
 		return json_user_info(user)
 
-@app.route('/reset_password', methods=['POST'])
-def reset_password():
+@app.route('/register', methods=['POST'])
+def user_register():
+	if 'username' not in request.form:
+		return jsonify({ 'error': 'Missing username.' }), 400
+	elif 'email' not in request.form:
+		return jsonify({ 'error': 'Missing email address.' }), 400
+	
 	username = request.form['username']
-	password = request.form['password']
-	action = request.form['action']
+	email = request.form['email']
 	
-	user = User.get_by_username(username)
+	if not re.match('^[a-zA-Z0-9]+$', username):
+		return jsonify({ 'error': 'Invalid username; must use only letters and digits.' }), 400
+	elif '@' not in email:
+		return jsonify({ 'error': 'Invalid email address.' }), 400
+	elif User.get_by_username(username):
+		return jsonify({ 'error': 'Username already registered.' }), 400
+	elif User.get_by_email(email):
+		return jsonify({ 'error': 'Email address already registered.' }), 400
 	
+	user = User(username, email)
+	tmp_pw = user.generate_tmp_password()
+	
+	send_email(
+		recipients=[email],
+		template='verify_email',
+		subject='Codelingo: verify your email address',
+		username=username,
+		tmp_pw=tmp_pw
+	)
+	
+	db.session.add(user)
+	db.session.commit()
+	
+	return jsonify({})
+
+@app.route('/reset_password', methods=['POST'])
+def user_reset_password():
+	username = request.form['username']
+	
+	user = User.get_by_username(username) or User.get_by_email(username)
 	if user:
 		tmp_pw = user.generate_tmp_password()
-		from app.mail import send_email
 		send_email(
 			recipients=[user.email],
 			template='reset_password',
@@ -70,7 +101,7 @@ def reset_password():
 
 @app.route('/logout', methods=['POST'])
 @login_required
-def logout():
+def user_logout():
 	logout_user()
 	return jsonify({})
 
@@ -79,6 +110,10 @@ def logout():
 def change_password():
 	if 'old_password' not in request.form:
 		return jsonify({ 'error': 'Missing old password.' }), 400
+	elif 'new_password1' not in request.form:
+		return jsonify({ 'error': 'Missing new password.' }), 400
+	elif 'new_password2' not in request.form:
+		return jsonify({ 'error': 'Missing repeated new password.' }), 400
 	
 	old_pw = request.form['old_password']
 	new_pw1 = request.form['new_password1']
