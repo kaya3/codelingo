@@ -1,7 +1,6 @@
 __all__ = ['User']
 
 from app import app, db
-from flask import url_for
 from sqlalchemy import func
 
 hash_api = app.config['PASSWORD_HASH_API']
@@ -22,8 +21,11 @@ class User(db.Model):
 	
 	@staticmethod
 	def get_by_username(username):
-		col = User.email if '@' in username else User.username
-		return User.query.filter(func.lower(col) == func.lower(username)).first()
+		return User.query.filter(func.lower(User.username) == func.lower(username)).first()
+	
+	@staticmethod
+	def get_by_username(username):
+		return User.query.filter(func.lower(User.email) == func.lower(username)).first()
 	
 	def __init__(self, username, email, new_password=None):
 		self.username = username
