@@ -2,8 +2,8 @@ from app import app, db
 from flask import jsonify
 from flask_login import current_user, login_required
 
-from app.decorators import force_password_change, language_choice_required
-from app.models import *
+from app.decorators import language_choice_required
+from app.models import User, Skill, SkillLevel, Language
 
 import random
 import itertools
@@ -58,7 +58,7 @@ def get_lesson(skill_id):
 			'questions': [q.data for q in lesson.questions],
 		})
 
-@app.route('/complete_lesson/<int:lesson_id>')#, methods=['POST'])
+@app.route('/complete_lesson/<int:lesson_id>', methods=['POST'])
 @language_choice_required
 def complete_lesson(lesson_id):
 	current_user = User.query.get(1) # TODO
@@ -81,5 +81,3 @@ def complete_lesson(lesson_id):
 				db.session.commit()
 		
 		return jsonify({})
-		
-		
