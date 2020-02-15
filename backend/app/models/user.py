@@ -23,11 +23,11 @@ class User(db.Model):
 	
 	@staticmethod
 	def get_by_username(username):
-		return User.query.filter(func.lower(User.username) == func.lower(username)).first()
+		return User.query.filter(func.lower(User.username) == func.lower(username)).one_or_none()
 	
 	@staticmethod
 	def get_by_email(username):
-		return User.query.filter(func.lower(User.email) == func.lower(username)).first()
+		return User.query.filter(func.lower(User.email) == func.lower(username)).one_or_none()
 	
 	def __init__(self, username, email, new_password=None):
 		self.username = username
@@ -43,7 +43,7 @@ class User(db.Model):
 	
 	def get_skill_level(self, skill):
 		from .progress import SkillLevel
-		level = SkillLevel.query.filter(SkillLevel.user_id == self.id).filter(SkillLevel.skill_id == skill.id).one()
+		level = SkillLevel.query.filter(SkillLevel.user_id == self.id).filter(SkillLevel.skill_id == skill.id).one_or_none()
 		return level or SkillLevel(self, skill)
 	
 	def is_authenticated(self):
