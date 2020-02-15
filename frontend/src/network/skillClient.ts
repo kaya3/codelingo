@@ -5,7 +5,7 @@ import { Skill } from '../model/Skill';
 
 export const skillClient = {
   getSkills(): Promise<Skill[]> {
-    return request.getData<Skill[]>('/skill', {});
+    return request.getData<Skill[]>('/get_skills', {});
   },
 
   getNextLesson(skillID: string): Promise<Lesson> {
