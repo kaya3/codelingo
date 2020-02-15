@@ -58,7 +58,7 @@ def get_lesson(skill_id):
 			'questions': [q.data for q in lesson.questions],
 		})
 
-@app.route('/complete_lesson/<int:lesson_id>')
+@app.route('/complete_lesson/<int:lesson_id>', methods=['POST'])
 @language_choice_required
 def complete_lesson(lesson_id):
 	current_user = User.query.get(1) # TODO
