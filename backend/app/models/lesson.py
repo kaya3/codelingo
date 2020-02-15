@@ -4,7 +4,7 @@ from app import app, db
 
 import json
 
-class Skill:
+class Skill(db.Model):
 	__tablename__ = 'skills'
 	id = db.Column('id', db.Integer, primary_key=True)
 	name = db.Column('name', db.String)
@@ -18,7 +18,7 @@ class Skill:
 		self.language = language
 		self.order = order
 
-class Lesson:
+class Lesson(db.Model):
 	__tablename__ = 'lessons'
 	id = db.Column('id', db.Integer, primary_key=True)
 	level = db.Column('level', db.Integer)
@@ -30,7 +30,7 @@ class Lesson:
 		self.skill = skill
 		self.level = level
 
-class Question:
+class Question(db.Model):
 	__tablename__ = 'questions'
 	id = db.Column('id', db.Integer, primary_key=True)
 	_data = db.Column('data', db.String)
