@@ -73,7 +73,7 @@ def complete_lesson(lesson_id):
 				lessons_in_skill = lesson.skill.lessons.filter(Lesson.level == lesson.level).count()
 				skill_level.progress = (len(ids_completed) + 1) / lessons_in_skill
 				if lessons_in_skill == len(ids_completed) + 1:
-					skill_level.level = less.level
+					skill_level.level = lesson.level
 				
 				completion = LessonCompleted(user, lesson)
 				db.session.add(skill_level)
