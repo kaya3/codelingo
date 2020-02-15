@@ -1,6 +1,7 @@
 import React, { PureComponent, ReactNode } from "react";
 import { Button, Progress } from "reactstrap";
 import { FaTimes } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 import { skillClient } from "../../network/skillClient";
 import { Lesson } from "../../model/Lesson";
@@ -29,15 +30,17 @@ class QuestionView extends PureComponent<Props, State> {
 
   componentDidMount() {
     toast.configure();
-    this.setState({
-      lesson: data as any
-    });
-
-    // skillClient.getNextLesson("1").then(response => {
-    //   this.setState({
-    //     lesson: response
-    //   });
+    // this.setState({
+    //   lesson: data as any
     // });
+
+    skillClient.getNextLesson("1").then(response => {
+      this.setState({
+        lesson: response
+      });
+
+      console.log(response);
+    });
   }
 
   incrementQuestion() {
@@ -55,8 +58,6 @@ class QuestionView extends PureComponent<Props, State> {
 
     const questions = lesson!.questions;
     const question = questions[currentQuestionIndex];
-
-    console.log(userAnswer, question.correct);
 
     return arraysEqual(userAnswer, question.correct);
   }
@@ -105,7 +106,9 @@ class QuestionView extends PureComponent<Props, State> {
     const { currentQuestionIndex, lesson } = this.state;
     return (
       <div className="d-flex w-100 m-2 align-items-center">
-        <FaTimes className="close" />
+        <Link to="/skills">
+          <FaTimes className="close" />
+        </Link>
         <Progress
           color="info"
           className="ml-2 w-100"
@@ -155,14 +158,13 @@ class QuestionView extends PureComponent<Props, State> {
   }
 
   private onNextClick() {
-
     this.setState({
       currentQuestionIndex: this.state.currentQuestionIndex + 1
-    })
+    });
 
-    skillClient.completeLesson('1').then(response => {
-      console.log(response)
-    })
+    skillClient.completeLesson("1").then(response => {
+      console.log(response);
+    });
   }
 
   // Results screen the user lands on after finishing or failing the lesson
@@ -173,13 +175,11 @@ class QuestionView extends PureComponent<Props, State> {
           <span className="text-muted m-2 text-center">
             Congratz! Skill finished
           </span>
-          <Button
-            className="button"
-            onClick={() => this.setState({ currentQuestionIndex: 0 })}
-            color="info"
-          >
-            COMPLETE MORE SKILLS
-          </Button>
+          <Link to="/skills">
+            <Button className="button" color="info">
+              COMPLETE MORE SKILLS
+            </Button>
+          </Link>
         </div>
       </div>
     );

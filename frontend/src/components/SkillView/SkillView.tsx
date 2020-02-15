@@ -1,20 +1,25 @@
 import React, { PureComponent, ReactNode } from "react";
-import { Button, UncontrolledPopover, PopoverHeader, PopoverBody  } from "reactstrap";
+import {
+  Button,
+  UncontrolledPopover,
+  PopoverHeader,
+  PopoverBody
+} from "reactstrap";
 import { skillClient } from "../../network/skillClient";
 import { Skill } from "../../model/Skill";
 import { authClient } from "../../network/authClient";
 import { FaListUl } from "react-icons/fa";
-
+import { Link } from "react-router-dom";
 
 interface Props {}
 
 interface State {
-  skills: Skill[][],
+  skills: Skill[][];
 }
 
 class SkillView extends PureComponent<Props, State> {
   state: State = {
-    skills: [],
+    skills: []
   };
 
   componentDidMount() {
@@ -25,7 +30,7 @@ class SkillView extends PureComponent<Props, State> {
     skillClient.getSkills().then(skills => {
       console.log(skills);
       this.setState({
-        skills,
+        skills
       });
     });
   }
@@ -36,26 +41,37 @@ class SkillView extends PureComponent<Props, State> {
         <div>
           <h1>Your Skills</h1>
           <p>Click on a skill to learn more about this language!</p>
-          { this.renderSkills() }
+          {this.renderSkills()}
         </div>
       </div>
     );
   }
 
   private renderSkills() {
-    return this.state.skills.flatMap((skillRow, outerIndex) => skillRow.map((skill, innerIndex) => (
-      <div id={`skill-container-${outerIndex}-${innerIndex}`} className="skill-wrapper text-center" key={`${outerIndex}.${innerIndex}`}>
-        <div className="skill-container">
-          <FaListUl />
+    return this.state.skills.flatMap((skillRow, outerIndex) =>
+      skillRow.map((skill, innerIndex) => (
+        <div
+          id={`skill-container-${outerIndex}-${innerIndex}`}
+          className="skill-wrapper text-center"
+          key={`${outerIndex}.${innerIndex}`}
+        >
+          <div className="skill-container">
+            <FaListUl />
+          </div>
+          <p>{skill.name}</p>
+          <UncontrolledPopover
+            placement="bottom"
+            target={`skill-container-${outerIndex}-${innerIndex}`}
+          >
+            <PopoverBody>
+              <Link to="/lesson">
+                <Button className="button">LEARN SKILL</Button>
+              </Link>
+            </PopoverBody>
+          </UncontrolledPopover>
         </div>
-        <p>{ skill.name }</p>
-        <UncontrolledPopover placement="bottom" target={`skill-container-${outerIndex}-${innerIndex}`}>
-          <PopoverBody>
-            <Button className="button">LEARN SKILL</Button>
-          </PopoverBody>
-        </UncontrolledPopover>
-      </div>
-    )));
+      ))
+    );
   }
 }
 
