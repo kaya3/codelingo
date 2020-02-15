@@ -9,8 +9,6 @@ export const skillClient = {
   },
 
   getNextLesson(skillID: string): Promise<Lesson> {
-    return request.getData<Lesson>('/get_next_lesson/:skillID', {
-      skillID,
-    });
+    return request.getData<Lesson>(`/get_next_lesson/${skillID}`, {});
   },
 }
