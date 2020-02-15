@@ -1,7 +1,7 @@
 from functools import wraps
 from threading import Thread
 
-from flask import redirect, jsonify
+from flask import jsonify
 from flask_login import current_user, login_required
 
 from app import app
