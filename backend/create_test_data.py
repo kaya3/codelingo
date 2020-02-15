@@ -7,10 +7,22 @@ user1 = User('alice', 'alice@example.com', 'test')
 user2 = User('bob', 'bob@example.com', 'test')
 user3 = User('clive', 'clive@example.com', 'test')
 
-skill = Skill('Lists', 1)
+db.session.add_all([user1, user2, user3])
+db.session.commit()
+
+
+skill = Skill('Lists', 'python', 1)
+
+db.session.add_all([skill])
+db.session.commit()
+
 
 lesson1 = Lesson(skill, 1)
 lesson2 = Lesson(skill, 2)
+
+db.session.add_all([lesson1, lesson2])
+db.session.commit()
+
 
 q1 = Question(lesson1, {
 	'kind': 'blocks',
@@ -31,11 +43,6 @@ q3 = Question(lesson2, {
 	'incorrect': ['sum', 'output', 'nums'],
 })
 
-db.session.add_all([
-	user1, user2, user3,
-	skill,
-	lesson1, lesson2,
-	q1, q2, q3
-])
+db.session.add_all([q1, q2, q3])
 db.session.commit()
 
