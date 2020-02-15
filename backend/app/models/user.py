@@ -19,6 +19,11 @@ class User(db.Model):
 	
 	current_language_id = db.Column('current_language_id', db.Integer, db.ForeignKey('languages.id'), nullable=True)
 	
+	@staticmethod
+	def get_by_username(username):
+		col = User.email if '@' in username else User.username
+		return User.query.filter(func.lower(col) == func.lower(username)).first()
+	
 	def __init__(self, username, email, new_password=None):
 		self.username = username
 		self.email = email
