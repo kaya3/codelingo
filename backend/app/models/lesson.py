@@ -1,14 +1,24 @@
-__all__ = ['Skill', 'Lesson', 'Question']
+__all__ = ['Language', 'Skill', 'Lesson', 'Question']
 
 from app import app, db
 
 import json
 
+class Language(db.Model):
+	__tablename__ = 'languages'
+	name = db.Column('name', db.String, primary_key=True)
+	
+	users = db.relationship('User', backref='current_language', lazy='dynamic')
+	skills = db.relationship('Skill', backref='language', lazy='dynamic')
+	
+	def __init__(self, name):
+		self.name = name
+
 class Skill(db.Model):
 	__tablename__ = 'skills'
 	id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
 	name = db.Column('name', db.String)
-	language = db.Column('language', db.String)
+	language_name = db.Column('language_name', db.String, db.ForeignKey('languages.name'), nullable=False)
 	order = db.Column('order', db.Integer)
 	
 	lessons = db.relationship('Lesson', backref='skill', lazy='dynamic')

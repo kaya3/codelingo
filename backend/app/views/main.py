@@ -1,5 +1,5 @@
 from app import app, db
-from flask import render_template, request, flash, redirect
+from flask import render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_required
 
 from app.decorators import force_password_change
@@ -11,6 +11,11 @@ def index():
 		return render_template('index_logged_in.html')
 	else:
 		return render_template('index_logged_out.html')
+
+@app.route('/choose_language/<language>/')
+@login_required
+def choose_language(language):
+	return redirect(url_for('index'))
 
 @app.route('/user/<username>/')
 def user_info(username):

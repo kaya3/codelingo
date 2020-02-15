@@ -15,9 +15,9 @@ def get_lesson(skill_id):
 	if not skill:
 		return 'No such skill.', 404
 	
-	lesson = random.choice(skill.lessons)
+	lesson = random.choice(list(skill.lessons))
 	return jsonify({
 		'name': skill.name,
-		'language': skill.language,
+		'language': skill.language_name,
 		'questions': [q.data for q in lesson.questions]
 	})
