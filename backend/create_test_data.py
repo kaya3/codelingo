@@ -11,7 +11,7 @@ language = Language('python')
 skill = Skill('Lists', language, 1)
 
 lesson1 = Lesson(skill, 1)
-lesson2 = Lesson(skill, 2)
+#lesson2 = Lesson(skill, 2)
 
 q1 = Question(lesson1, {
 	'kind': 'blocks',
@@ -24,7 +24,7 @@ q2 = Question(lesson1, {
 	'text': '<p>What is the result of <code>sum([2, 5])</code>?</p>',
 	'options': '7 2 5'.split(),
 })
-q3 = Question(lesson2, {
+q3 = Question(lesson1, {
 	'kind': 'blanks',
 	'text': '<p>Complete the code to print each number from <code>nums</code>.</p>',
 	'template': 'for ### in nums:\n\t###(x)'.split('###'),
@@ -35,7 +35,7 @@ q3 = Question(lesson2, {
 db.session.add_all([
 	user1, user2, user3,
 	language, skill,
-	lesson1, lesson2,
+	lesson1, #lesson2,
 	q1, q2, q3
 ])
 db.session.commit()
