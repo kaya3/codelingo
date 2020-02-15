@@ -46,5 +46,5 @@ class Question(db.Model):
 		return json.loads(self._data)
 	
 	@data.setter
-	def set_data(self, data):
+	def data(self, data):
 		self._data = json.dumps(data)
