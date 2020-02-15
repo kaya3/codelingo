@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 
 app = Flask(__name__)
 app.config.from_object('config')

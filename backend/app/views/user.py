@@ -18,7 +18,7 @@ def json_user_info(user):
 @app.route('/login', methods=['POST'])
 def user_login():
 	if current_user.is_authenticated:
-		return 'You are already logged in.', 400
+		return jsonify({ 'error': 'You are already logged in.' }), 400
 	
 	username = request.form['username']
 	password = request.form['password']
