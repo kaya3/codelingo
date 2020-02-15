@@ -41,7 +41,7 @@ class Lesson(db.Model):
 	
 	skill_id = db.Column('skill_id', db.Integer, db.ForeignKey('skills.id'), nullable=False)
 	questions = db.relationship('Question', backref='lesson', lazy='dynamic')
-	users_completed = db.relationship('LessonsCompleted', backref='lesson', lazy='dynamic')
+	users_completed = db.relationship('LessonCompleted', backref='lesson', lazy='dynamic')
 	
 	def __init__(self, skill, level):
 		self.skill = skill

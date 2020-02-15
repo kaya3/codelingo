@@ -18,7 +18,7 @@ class User(db.Model):
 	require_change_password = db.Column('require_change_password', db.Boolean, default=False, nullable=False)
 	
 	current_language_id = db.Column('current_language_id', db.Integer, db.ForeignKey('languages.id'), nullable=True)
-	lessons_completed = db.relationship('LessonsCompleted', backref='user', lazy='dynamic')
+	lessons_completed = db.relationship('LessonCompleted', backref='user', lazy='dynamic')
 	skill_levels = db.relationship('SkillLevel', backref='user', lazy='dynamic')
 	
 	@staticmethod

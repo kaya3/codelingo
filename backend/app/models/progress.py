@@ -1,4 +1,4 @@
-__all__ = ['LessonCompleted', 'SkillLevel']
+__all__ = ['LessonsCompleted', 'SkillLevel']
 
 from app import app, db
 
