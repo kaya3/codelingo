@@ -1,14 +1,13 @@
 import React, { PureComponent, ReactNode } from "react";
 import { Button, Progress } from "reactstrap";
-import CodeBlockWithBlank from "../CodeBlockWithBlank";
 import { FaTimes } from "react-icons/fa";
 
 import { skillClient } from "../../network/skillClient";
 import { Lesson } from "../../model/Lesson";
 import { Question } from "../../model/Question";
 import ReactHtmlParser from "react-html-parser";
-import { QuestionHandler } from "../../util/QuestionHandler";
 import { data } from "../../test/test_data.js";
+import InteractiveContent from "../InteractiveContent/InteractiveContent";
 
 interface Props {}
 interface State {
@@ -53,7 +52,7 @@ class QuestionView extends PureComponent<Props, State> {
         return this.renderFinishScreen();
       }
     }
-    let code = ["No code found"];
+    let code;
 
     if (question?.kind === "blanks") {
       code = question.template;
@@ -63,8 +62,12 @@ class QuestionView extends PureComponent<Props, State> {
       <div className="question-view d-flex flex-column align-items-center p-2">
         {this.renderHeader()}
         {ReactHtmlParser(question.text)}
-        <CodeBlockWithBlank code={code} language={lesson.language} />
-        {this.renderAnswers(question.correct, question.incorrect)}
+        <InteractiveContent
+          kind={question.kind}
+          code={code}
+          language={lesson.language}
+          question={question}
+        />
         {this.renderButton()}
       </div>
     );
@@ -82,22 +85,6 @@ class QuestionView extends PureComponent<Props, State> {
         >
           {currentQuestionIndex + 1} / {lesson!.questions.length}
         </Progress>
-      </div>
-    );
-  }
-
-  private renderAnswers(correctAnswers: string[], incorrectAnswers: string[]) {
-    const answers = correctAnswers.concat(incorrectAnswers);
-
-    const shuffledAnswers = QuestionHandler.shuffleQuestions(answers);
-
-    return (
-      <div className="answer-container">
-        {shuffledAnswers.map(answer => (
-          <div key={answer} className="answer">
-            <span>{answer}</span>
-          </div>
-        ))}
       </div>
     );
   }
