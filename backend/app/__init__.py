@@ -17,7 +17,7 @@ login_manager.login_view = 'index'
 
 @app.route('/')
 def index():
-	return jsonify({ 'error': 'Index should be handled by React app.' }), 500
+	return jsonify({ 'error': 'You are not logged in.' }), 401
 
 from app import views, models
 
