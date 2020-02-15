@@ -1,13 +1,15 @@
 import React, { PureComponent, ReactNode } from "react";
-import { Button, Progress } from "reactstrap";
+import { Button, UncontrolledPopover, PopoverHeader, PopoverBody  } from "reactstrap";
 import { skillClient } from "../../network/skillClient";
 import { Skill } from "../../model/Skill";
 import { authClient } from "../../network/authClient";
+import { FaListUl } from "react-icons/fa";
+
 
 interface Props {}
 
 interface State {
-  skills: Skill[],
+  skills: Skill[][],
 }
 
 class SkillView extends PureComponent<Props, State> {
@@ -31,8 +33,9 @@ class SkillView extends PureComponent<Props, State> {
   render(): ReactNode {
     return (
       <div className="skill-view d-flex flex-column align-items-center p-2">
-        <div className="d-flex w-100 m-2 align-items-center">
+        <div>
           <h1>Your Skills</h1>
+          <p>Click on a skill to learn more about this language!</p>
           { this.renderSkills() }
         </div>
       </div>
@@ -40,11 +43,19 @@ class SkillView extends PureComponent<Props, State> {
   }
 
   private renderSkills() {
-    return this.state.skills.map(skill => (
-      <div className="answer-container">
-        <Button>Go To Skill { skill.title }</Button>
+    return this.state.skills.flatMap((skillRow, outerIndex) => skillRow.map((skill, innerIndex) => (
+      <div id={`skill-container-${outerIndex}-${innerIndex}`} className="skill-wrapper text-center" key={`${outerIndex}.${innerIndex}`}>
+        <div className="skill-container">
+          <FaListUl />
+        </div>
+        <p>{ skill.name }</p>
+        <UncontrolledPopover placement="bottom" target={`skill-container-${outerIndex}-${innerIndex}`}>
+          <PopoverBody>
+            <Button className="button">LEARN SKILL</Button>
+          </PopoverBody>
+        </UncontrolledPopover>
       </div>
-    ));
+    )));
   }
 }
 

@@ -154,6 +154,17 @@ class QuestionView extends PureComponent<Props, State> {
     );
   }
 
+  private onNextClick() {
+
+    this.setState({
+      currentQuestionIndex: this.state.currentQuestionIndex + 1
+    })
+
+    skillClient.completeLesson('1').then(response => {
+      console.log(response)
+    })
+  }
+
   // Results screen the user lands on after finishing or failing the lesson
   private renderFinishScreen() {
     return (

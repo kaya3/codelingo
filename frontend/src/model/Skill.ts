@@ -1,5 +1,5 @@
 export type Skill = {
-    skillID: string,
-    title: string,
-    language: string,
+    level: number,
+    level_progress: number,
+    name: string,
 }
