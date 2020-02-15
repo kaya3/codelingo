@@ -9,7 +9,7 @@ default_password_length = app.config['DEFAULT_PASSWORD_LENGTH']
 
 class User(db.Model):
 	__tablename__ = 'users'
-	id = db.Column('id', db.Integer, primary_key=True)
+	id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
 	username = db.Column('username', db.String(128), index=True, unique=True, nullable=False)
 	email = db.Column('email', db.String, index=True, unique=True, nullable=False)
 	

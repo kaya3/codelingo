@@ -6,7 +6,7 @@ import json
 
 class Skill(db.Model):
 	__tablename__ = 'skills'
-	id = db.Column('id', db.Integer, primary_key=True)
+	id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
 	name = db.Column('name', db.String)
 	language = db.Column('language', db.String)
 	order = db.Column('order', db.Integer)
@@ -20,11 +20,11 @@ class Skill(db.Model):
 
 class Lesson(db.Model):
 	__tablename__ = 'lessons'
-	id = db.Column('id', db.Integer, primary_key=True)
+	id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
 	level = db.Column('level', db.Integer)
 	
 	skill_id = db.Column('skill_id', db.Integer, db.ForeignKey('skills.id'), nullable=False)
-	questions = db.relationship('Question', backref='skill', lazy='dynamic')
+	questions = db.relationship('Question', backref='lesson', lazy='dynamic')
 	
 	def __init__(self, skill, level):
 		self.skill = skill
@@ -32,7 +32,7 @@ class Lesson(db.Model):
 
 class Question(db.Model):
 	__tablename__ = 'questions'
-	id = db.Column('id', db.Integer, primary_key=True)
+	id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
 	_data = db.Column('data', db.String)
 	
 	lesson_id = db.Column('lesson_id', db.Integer, db.ForeignKey('lessons.id'), nullable=False)
