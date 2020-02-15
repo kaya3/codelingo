@@ -42,11 +42,6 @@ class InteractiveContent extends PureComponent<Props, State> {
     super(props);
 
     this.onDragEnd = this.onDragEnd.bind(this);
-    let possibleAnswers = props.question.correct.concat(
-      props.question.incorrect
-    );
-    possibleAnswers = QuestionHandler.shuffleQuestions(possibleAnswers);
-    this.state.possibleAnswers = possibleAnswers;
   }
 
   componentDidMount() {
