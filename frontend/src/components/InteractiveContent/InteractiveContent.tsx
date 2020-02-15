@@ -2,8 +2,10 @@ import React, { PureComponent, ReactNode } from "react";
 
 import { QuestionHandler } from "../../util/QuestionHandler";
 import { Question, Kind } from "../../model/Question";
+import { reorder } from "../../util/reorder";
+import { move } from "../../util/move";
 
-import CodeBlockWithBlank from "../CodeBlockWithBlank";
+import CodeBlockWithBlank from "../CodeBlockWithBlank/CodeBlockWithBlank";
 import {
   DragDropContext,
   DropResult,
@@ -16,10 +18,13 @@ interface Props {
   question: Question;
   code?: string[];
   language?: string;
+  updateAnswer: (userAnswer: string[]) => void;
 }
 
 interface State {
   answerListOrientation: Orientation;
+  userAnswer: string[];
+  possibleAnswers?: string[];
 }
 
 enum Orientation {
@@ -28,68 +33,188 @@ enum Orientation {
 }
 
 class InteractiveContent extends PureComponent<Props, State> {
+  state: State = {
+    userAnswer: [],
+    answerListOrientation: Orientation.HORIZONTAL
+  };
+
+  constructor(props: Props) {
+    super(props);
+
+    this.onDragEnd = this.onDragEnd.bind(this);
+    let possibleAnswers = props.question.correct.concat(
+      props.question.incorrect
+    );
+    possibleAnswers = QuestionHandler.shuffleQuestions(possibleAnswers);
+    this.state.possibleAnswers = possibleAnswers;
+  }
+
+  componentDidMount() {
+    this.updatePossibleAnswers();
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.question !== this.props.question) {
+      this.updatePossibleAnswers();
+    }
+  }
+
+  updatePossibleAnswers() {
+    let possibleAnswers = this.props.question.correct.concat(
+      this.props.question.incorrect
+    );
+    possibleAnswers = QuestionHandler.shuffleQuestions(possibleAnswers);
+    this.setState({ possibleAnswers });
+  }
+
   onDragEnd(result: DropResult) {
-    if (!result.destination) {
+    const { source, destination } = result;
+    const { updateAnswer } = this.props;
+
+    // dropped outside the list
+    if (!destination) {
       return;
+    }
+
+    if (source.droppableId === destination.droppableId) {
+      const items = reorder(
+        //@ts-ignore
+        this.state[source.droppableId],
+        source.index,
+        destination.index
+      );
+
+      let state = { userAnswer: items };
+
+      if (source.droppableId === "possibleAnswers") {
+        //@ts-ignore
+        state = { possibleAnswers: items };
+      }
+
+      //@ts-ignore
+      this.setState(state, () => updateAnswer(this.state.userAnswer));
+    } else {
+      const result = move(
+        //@ts-ignore
+        this.state[source.droppableId],
+        //@ts-ignore
+        this.state[destination.droppableId],
+        source,
+        destination
+      );
+
+      this.setState(
+        {
+          //@ts-ignore
+          userAnswer: result.userAnswer,
+          //@ts-ignore
+          possibleAnswers: result.possibleAnswers
+        },
+        () => updateAnswer(this.state.userAnswer)
+      );
     }
   }
 
   render(): ReactNode {
-    const { code, language, question } = this.props;
+    const { code, language, question, kind } = this.props;
+    const { userAnswer } = this.state;
     return (
       <>
-        {code && language && (
-          <CodeBlockWithBlank code={code} language={language} />
-        )}
-        {this.renderAnswers(question.correct, question.incorrect)}
+        <DragDropContext onDragEnd={this.onDragEnd}>
+          {kind === Kind.BLOCKS ? (
+            <>
+              <small className="text-muted">
+                Hint: Drag the answers onto the area below.
+              </small>
+              <Droppable
+                direction={Orientation.HORIZONTAL}
+                droppableId="userAnswer"
+              >
+                {(provided, snapshot) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                    className="block-container"
+                  >
+                    {userAnswer.map((answer, index) => (
+                      <Draggable
+                        key={answer}
+                        draggableId={answer}
+                        index={index}
+                      >
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            key={answer}
+                            className="answer"
+                          >
+                            <span>{answer}</span>
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </>
+          ) : (
+            code &&
+            language && <CodeBlockWithBlank code={code} language={language} />
+          )}
+
+          {this.renderAnswers()}
+        </DragDropContext>
       </>
     );
   }
 
-  private renderAnswers(correctAnswers: string[], incorrectAnswers: string[]) {
+  private renderAnswers() {
     const { kind } = this.props;
-    const answers = correctAnswers.concat(incorrectAnswers);
+    const { possibleAnswers } = this.state;
 
-    const shuffledAnswers = QuestionHandler.shuffleQuestions(answers);
+    if (!possibleAnswers) {
+      return;
+    }
 
     return (
-      <DragDropContext onDragEnd={this.onDragEnd}>
-        <Droppable
-          direction={Orientation.HORIZONTAL}
-          isDropDisabled={kind === Kind.MULTIPLE_CHOICE}
-          droppableId="droppable"
-        >
-          {(provided, snapshot) => (
-            <div
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-              className="answer-container"
-            >
-              {shuffledAnswers.map((answer, index) => (
-                <Draggable
-                  key={answer}
-                  isDragDisabled={kind === Kind.MULTIPLE_CHOICE}
-                  draggableId={answer}
-                  index={index}
-                >
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      key={answer}
-                      className="answer"
-                    >
-                      <span>{answer}</span>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+      <Droppable
+        direction={Orientation.HORIZONTAL}
+        isDropDisabled={kind === Kind.MULTIPLE_CHOICE}
+        droppableId="possibleAnswers"
+      >
+        {(provided, snapshot) => (
+          <div
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            className="answer-container"
+          >
+            {possibleAnswers.map((answer, index) => (
+              <Draggable
+                key={answer}
+                isDragDisabled={kind === Kind.MULTIPLE_CHOICE}
+                draggableId={answer}
+                index={index}
+              >
+                {(provided, snapshot) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    key={answer}
+                    className="answer"
+                  >
+                    <span>{answer}</span>
+                  </div>
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
     );
   }
 }

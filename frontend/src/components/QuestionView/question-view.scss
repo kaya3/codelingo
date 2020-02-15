@@ -43,28 +43,28 @@
     justify-content: center;
     margin: 1rem;
 
-    .answer {
-      font-family: monospace;
-      text-align: center;
-      user-select: none;
-      cursor: grab;
-      margin: 0.5rem;
-      background: #fff;
-      border: 2px solid $gray-200;
-      border-radius: 15px;
-      border-width: 2px 2px 4px;
-      padding: 14px 18px;
-
-      &:hover {
-        background: $gray-200;
-        border-color: $gray-300;
-      }
-    }
-
     @media only screen and (max-width: 400px) {
       .answer {
         width: 100%;
       }
+    }
+  }
+
+  .answer {
+    font-family: monospace;
+    text-align: center;
+    user-select: none;
+    cursor: grab;
+    margin: 0.5rem;
+    background: #fff;
+    border: 2px solid $gray-200;
+    border-radius: 15px;
+    border-width: 2px 2px 4px;
+    padding: 14px 18px;
+
+    &:hover {
+      background: $gray-200;
+      border-color: $gray-300;
     }
   }
 }

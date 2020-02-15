@@ -3,12 +3,10 @@ code {
 }
 
 .button {
-  border: 2px solid darken($color: $info, $amount: 15);
   border-top-left-radius: 18px;
   border-top-right-radius: 18px;
   border-width: 0 0 4px;
   padding: 13px 16px;
-  background-color: $info;
   color: #fff;
   font-weight: bold;
   min-width: 150px;
@@ -16,8 +14,41 @@ code {
   border-radius: 12px;
   bottom: 10px;
 
-  &:hover {
-    background-color: lighten($color: $info, $amount: 7);
+  &.button-info {
+    background-color: $info;
     border-color: darken($color: $info, $amount: 15);
+
+    &:hover {
+      background-color: lighten($color: $info, $amount: 7);
+      border-color: darken($color: $info, $amount: 10);
+    }
   }
+
+  &.button-success {
+    background-color: $success;
+    border-color: darken($color: $success, $amount: 15);
+
+    &:hover {
+      background-color: lighten($color: $success, $amount: 7);
+      border-color: darken($color: $success, $amount: 10);
+    }
+  }
+
+  &.button-error {
+    background-color: $danger;
+    border-color: darken($color: $danger, $amount: 15);
+
+    &:hover {
+      background-color: lighten($color: $danger, $amount: 7);
+      border-color: darken($color: $danger, $amount: 10);
+    }
+  }
+}
+
+.toast-error {
+  background-color: $danger;
+}
+
+.toast-success {
+  background-color: $success;
 }
