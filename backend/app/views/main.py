@@ -2,7 +2,7 @@ from app import app, db
 from flask import render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_required
 
-from app.decorators import force_password_change
+from app.decorators import force_password_change, language_choice_required
 from app.models import *
 
 @app.route('/')
