@@ -57,3 +57,29 @@ def get_lesson(skill_id):
 			'lesson_id': lesson.id,
 			'questions': [q.data for q in lesson.questions],
 		})
+
+@app.route('/complete_lesson/<int:lesson_id>')
+@language_choice_required
+def get_lesson(lesson_id):
+	current_user = User.query.get(1) # TODO
+	lesson = Lesson.query.get(lesson_id)
+	if not lesson:
+		return 'Lesson not found.', 404
+	else:
+		skill_level = current_user.get_skill_level(lesson.skill)
+		if skill_level < lesson.level:
+			ids_completed = set(l.id for l in current_user.lessons_completed if l.skill == lesson.skill)
+			if lesson.id not in lessons_completed:
+				lessons_in_skill = sum(1 for lesson.skill.lessons.filter(Lesson.level == lesson.level))
+				skill_level.progress = (ids_completed + 1) / lessons_in_skill
+				if lessons_in_skill == len(ids_completed) + 1:
+					skill_level.level = less.level
+				
+				completion = LessonCompleted(user, lesson)
+				db.session.add(skill_level)
+				db.session.add(completion)
+				db.session.commit()
+		
+		return jsonify({})
+		
+		
