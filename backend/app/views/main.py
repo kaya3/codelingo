@@ -60,7 +60,7 @@ def get_lesson(skill_id):
 
 @app.route('/complete_lesson/<int:lesson_id>')
 @language_choice_required
-def get_lesson(lesson_id):
+def complete_lesson(lesson_id):
 	current_user = User.query.get(1) # TODO
 	lesson = Lesson.query.get(lesson_id)
 	if not lesson:
