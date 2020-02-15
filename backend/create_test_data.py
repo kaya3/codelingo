@@ -22,7 +22,8 @@ q1 = Question(lesson1, {
 q2 = Question(lesson1, {
 	'kind': 'multiple_choice',
 	'text': '<p>What is the result of <code>sum([2, 5])</code>?</p>',
-	'options': '7 2 5'.split(),
+	'correct': ['7'],
+	'incorrect': ['2', '5'], 
 })
 q3 = Question(lesson1, {
 	'kind': 'blanks',
