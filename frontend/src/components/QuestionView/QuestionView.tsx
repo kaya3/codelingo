@@ -3,7 +3,7 @@ import { Button, Progress } from "reactstrap";
 import CodeBlockWithBlank from "../CodeBlockWithBlank";
 import { FaTimes } from "react-icons/fa";
 
-import { skillClient } from '../../network/skillClient';
+import { skillClient } from "../../network/skillClient";
 
 interface Props {}
 interface State {}
@@ -12,9 +12,9 @@ class QuestionView extends PureComponent<Props, State> {
   state: State = {};
 
   componentDidMount() {
-    skillClient.getNextLesson('1').then(response => {
-      console.log(response)
-    })
+    skillClient.getNextLesson("1").then(response => {
+      console.log(response);
+    });
   }
 
   render(): ReactNode {
@@ -39,7 +39,7 @@ class HelloMessage extends React.Component {
     };
 
     return (
-      <div className="d-flex flex-column align-items-center m-2 p-2">
+      <div className="question-view d-flex flex-column align-items-center p-2">
         <div className="d-flex w-100 m-2 align-items-center">
           <FaTimes className="close" />
           <Progress color="info" className="ml-2 w-100" value={50}>
