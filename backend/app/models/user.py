@@ -17,10 +17,13 @@ class User(db.Model):
 	tmp_password_hash = db.Column('tmp_password_hash', db.String, nullable=True)
 	require_change_password = db.Column('require_change_password', db.Boolean, default=False, nullable=False)
 	
+	current_language_id = db.Column('current_language_id', db.Integer, db.ForeignKey('languages.id'), nullable=True)
+	
 	def __init__(self, username, email, new_password=None):
 		self.username = username
 		self.email = email
 		self.tmp_password = None
+		self.current_language = None
 		
 		if new_password is None:
 			self.generate_tmp_password()

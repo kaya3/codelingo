@@ -7,22 +7,14 @@ user1 = User('alice', 'alice@example.com', 'test')
 user2 = User('bob', 'bob@example.com', 'test')
 user3 = User('clive', 'clive@example.com', 'test')
 
-db.session.add_all([user1, user2, user3])
-db.session.commit()
+language = Language('python')
+user1.current_language = language
+user2.current_language = language
 
-
-skill = Skill('Lists', 'python', 1)
-
-db.session.add_all([skill])
-db.session.commit()
-
+skill = Skill('Lists', language, 1)
 
 lesson1 = Lesson(skill, 1)
-lesson2 = Lesson(skill, 2)
-
-db.session.add_all([lesson1, lesson2])
-db.session.commit()
-
+#lesson2 = Lesson(skill, 2)
 
 q1 = Question(lesson1, {
 	'kind': 'blocks',
@@ -33,16 +25,21 @@ q1 = Question(lesson1, {
 q2 = Question(lesson1, {
 	'kind': 'multiple_choice',
 	'text': '<p>What is the result of <code>sum([2, 5])</code>?</p>',
-	'options': '7 2 5'.split(),
+	'correct': ['7'],
+	'incorrect': ['2', '5'], 
 })
-q3 = Question(lesson2, {
+q3 = Question(lesson1, {
 	'kind': 'blanks',
 	'text': '<p>Complete the code to print each number from <code>nums</code>.</p>',
-	'template': 'for ### in nums:\n\t###(x)',
+	'template': 'for ### in nums:\n\t###(x)'.split('###'),
 	'correct': ['x', 'print'],
 	'incorrect': ['sum', 'output', 'nums'],
 })
 
-db.session.add_all([q1, q2, q3])
+db.session.add_all([
+	user1, user2, user3,
+	language, skill,
+	lesson1, #lesson2,
+	q1, q2, q3
+])
 db.session.commit()
-
