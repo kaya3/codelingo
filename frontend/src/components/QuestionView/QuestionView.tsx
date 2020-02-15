@@ -61,20 +61,27 @@ class QuestionView extends PureComponent<Props, State> {
 
     return (
       <div className="question-view d-flex flex-column align-items-center p-2">
-        <div className="d-flex w-100 m-2 align-items-center">
-          <FaTimes className="close" />
-          <Progress
-            color="info"
-            className="ml-2 w-100"
-            value={((currentQuestionIndex + 1) / questions.length) * 100}
-          >
-            {currentQuestionIndex + 1} / {questions.length}
-          </Progress>
-        </div>
+        {this.renderHeader()}
         {ReactHtmlParser(question.text)}
         <CodeBlockWithBlank code={code} language={lesson.language} />
         {this.renderAnswers(question.correct, question.incorrect)}
         {this.renderButton()}
+      </div>
+    );
+  }
+
+  private renderHeader() {
+    const { currentQuestionIndex, lesson } = this.state;
+    return (
+      <div className="d-flex w-100 m-2 align-items-center">
+        <FaTimes className="close" />
+        <Progress
+          color="info"
+          className="ml-2 w-100"
+          value={((currentQuestionIndex + 1) / lesson!.questions.length) * 100}
+        >
+          {currentQuestionIndex + 1} / {lesson!.questions.length}
+        </Progress>
       </div>
     );
   }
@@ -98,12 +105,9 @@ class QuestionView extends PureComponent<Props, State> {
   private renderButton() {
     const { lesson, currentQuestionIndex } = this.state;
 
-    if (!lesson) {
-      return;
-    }
-
     return (
       <Button
+        className="button"
         color="info"
         onClick={() =>
           this.setState({
@@ -111,7 +115,7 @@ class QuestionView extends PureComponent<Props, State> {
           })
         }
       >
-        {lesson.questions.length !== currentQuestionIndex + 1
+        {lesson!.questions.length !== currentQuestionIndex + 1
           ? "NEXT"
           : "FINISH"}
       </Button>
@@ -126,6 +130,7 @@ class QuestionView extends PureComponent<Props, State> {
             Congratz! Skill finished
           </span>
           <Button
+            className="button"
             onClick={() => this.setState({ currentQuestionIndex: 0 })}
             color="info"
           >
