@@ -1,12 +1,12 @@
 import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import "./style/index.scss";
-import ElderScrolls6 from "./components/QuestionView";
+import QuestionView from "./components/QuestionView/QuestionView";
 
 function App() {
   return (
     <BrowserRouter>
-      <Route exact path="/" component={ElderScrolls6} />
+      <Route exact path="/" component={QuestionView} />
     </BrowserRouter>
   );
 }
