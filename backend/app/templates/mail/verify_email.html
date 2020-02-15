@@ -1,0 +1,7 @@
+{% extends "mail/base.html" %}
+{% block body %}
+<p>Welcome to Codelingo, <strong>{{ nickname }}</strong>!</p>
+<p>You may now log in to Codelingo with the temporary password below. You will then be asked to choose a new password.</p>
+<p style="margin:2em;">Temporary password: <code>{{ tmp_pw }}</code></p>
+<p>If you did not register this account yourself, please ignore and delete this email.</p>
+{% endblock %}

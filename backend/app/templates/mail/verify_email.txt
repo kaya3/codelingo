@@ -1,0 +1,7 @@
+Welcome to Codelingo, {{ nickname }}!
+
+You may now log in to Codelingo with the temporary password below. You will then be asked to choose a new password.
+
+>>> Temporary password: {{ tmp_pw }}
+
+If you did not register this account yourself, please ignore and delete this email.

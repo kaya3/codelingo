@@ -24,9 +24,9 @@ class LoginView extends PureComponent<Props, State> {
   }
 
   onClick() {
-    authClient.login('alice', 'test').then(response => {
-      console.log(response);
-    });
+    // authClient.login('alice', 'test').then(response => {
+    //   console.log(response);
+    // });
   }
 }
 
