@@ -18,6 +18,6 @@ def get_lesson(skill_id):
 	lesson = random.choice(list(skill.lessons))
 	return jsonify({
 		'name': skill.name,
-		'language': skill.language_name,
+		'language': skill.language.name,
 		'questions': [q.data for q in lesson.questions]
 	})

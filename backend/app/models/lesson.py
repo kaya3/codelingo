@@ -6,7 +6,8 @@ import json
 
 class Language(db.Model):
 	__tablename__ = 'languages'
-	name = db.Column('name', db.String, primary_key=True)
+	id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
+	name = db.Column('name', db.String, index=True)
 	
 	users = db.relationship('User', backref='current_language', lazy='dynamic')
 	skills = db.relationship('Skill', backref='language', lazy='dynamic')
@@ -18,7 +19,7 @@ class Skill(db.Model):
 	__tablename__ = 'skills'
 	id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
 	name = db.Column('name', db.String)
-	language_name = db.Column('language_name', db.String, db.ForeignKey('languages.name'), nullable=False)
+	language_id = db.Column('language_id', db.Integer, db.ForeignKey('languages.id'), nullable=False)
 	order = db.Column('order', db.Integer)
 	
 	lessons = db.relationship('Lesson', backref='skill', lazy='dynamic')
