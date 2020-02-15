@@ -67,7 +67,7 @@ def complete_lesson(lesson_id):
 		return 'Lesson not found.', 404
 	else:
 		skill_level = current_user.get_skill_level(lesson.skill)
-		if skill_level < lesson.level:
+		if skill_level.level < lesson.level:
 			ids_completed = set(l.id for l in current_user.lessons_completed if l.skill == lesson.skill)
 			if lesson.id not in lessons_completed:
 				lessons_in_skill = lesson.skill.lessons.filter(Lesson.level == lesson.level).count()
