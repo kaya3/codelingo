@@ -98,10 +98,7 @@ class QuestionView extends PureComponent<Props, State> {
       <Button
         className="button"
         color="info"
-        onClick={() =>
-          this.setState({
-            currentQuestionIndex: this.state.currentQuestionIndex + 1
-          })
+        onClick={() => this.onNextClick()
         }
       >
         {lesson!.questions.length !== currentQuestionIndex + 1
@@ -109,6 +106,17 @@ class QuestionView extends PureComponent<Props, State> {
           : "FINISH"}
       </Button>
     );
+  }
+
+  private onNextClick() {
+
+    this.setState({
+      currentQuestionIndex: this.state.currentQuestionIndex + 1
+    })
+
+    skillClient.completeLesson('1').then(response => {
+      console.log(response)
+    })
   }
 
   // Results screen the user lands on after finishing or failing the lesson
