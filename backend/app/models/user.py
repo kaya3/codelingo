@@ -18,14 +18,16 @@ class User(db.Model):
 	require_change_password = db.Column('require_change_password', db.Boolean, default=False, nullable=False)
 	
 	current_language_id = db.Column('current_language_id', db.Integer, db.ForeignKey('languages.id'), nullable=True)
+	lessons_completed = db.relationship('LessonCompleted', backref='user', lazy='dynamic')
+	skill_levels = db.relationship('SkillLevel', backref='user', lazy='dynamic')
 	
 	@staticmethod
 	def get_by_username(username):
-		return User.query.filter(func.lower(User.username) == func.lower(username)).first()
+		return User.query.filter(func.lower(User.username) == func.lower(username)).one_or_none()
 	
 	@staticmethod
 	def get_by_email(username):
-		return User.query.filter(func.lower(User.email) == func.lower(username)).first()
+		return User.query.filter(func.lower(User.email) == func.lower(username)).one_or_none()
 	
 	def __init__(self, username, email, new_password=None):
 		self.username = username
@@ -38,6 +40,11 @@ class User(db.Model):
 			self.password_hash = 'Not a password hash'
 		else:
 			self.password_hash = hash_api.encrypt(new_password, rounds=hash_rounds)
+	
+	def get_skill_level(self, skill):
+		from .progress import SkillLevel
+		level = self.skill_levels.filter(SkillLevel.skill_id == skill.id).one_or_none()
+		return level or SkillLevel(self, skill)
 	
 	def is_authenticated(self):
 		return True

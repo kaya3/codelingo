@@ -8,6 +8,8 @@ import { Question } from "../../model/Question";
 import ReactHtmlParser from "react-html-parser";
 import { data } from "../../test/test_data.js";
 import InteractiveContent from "../InteractiveContent/InteractiveContent";
+import { arraysEqual } from "../../util/arraysEqual";
+import { ToastContainer, toast } from "react-toastify";
 
 interface Props {}
 interface State {
@@ -15,15 +17,18 @@ interface State {
   question?: Question;
   currentQuestionIndex: number;
   userAnswer: string[];
+  buttonColor: string;
 }
 
 class QuestionView extends PureComponent<Props, State> {
   state: State = {
     currentQuestionIndex: 0,
-    userAnswer: []
+    userAnswer: [],
+    buttonColor: "info"
   };
 
   componentDidMount() {
+    toast.configure();
     this.setState({
       lesson: data as any
     });
@@ -33,6 +38,27 @@ class QuestionView extends PureComponent<Props, State> {
     //     lesson: response
     //   });
     // });
+  }
+
+  incrementQuestion() {
+    this.setState({
+      currentQuestionIndex: this.state.currentQuestionIndex + 1
+    });
+  }
+
+  updateAnswer(userAnswer: string[]) {
+    this.setState({ userAnswer });
+  }
+
+  isCorrect() {
+    const { userAnswer, lesson, currentQuestionIndex } = this.state;
+
+    const questions = lesson!.questions;
+    const question = questions[currentQuestionIndex];
+
+    console.log(userAnswer, question.correct);
+
+    return arraysEqual(userAnswer, question.correct);
   }
 
   render(): ReactNode {
@@ -67,6 +93,7 @@ class QuestionView extends PureComponent<Props, State> {
           code={code}
           language={lesson.language}
           question={question}
+          updateAnswer={this.updateAnswer.bind(this)}
         />
         {this.renderButton()}
       </div>
@@ -92,18 +119,37 @@ class QuestionView extends PureComponent<Props, State> {
 
   // Next/Finish Lesson Button
   private renderButton() {
-    const { lesson, currentQuestionIndex } = this.state;
+    const { lesson, currentQuestionIndex, buttonColor } = this.state;
 
     return (
       <Button
-        className="button"
-        color="info"
-        onClick={() => this.onNextClick()
-        }
+        className={`button button-${buttonColor}`}
+        color={buttonColor}
+        onClick={() => {
+          if (buttonColor === "info") {
+            if (this.isCorrect()) {
+              toast.success("✔️ Correct", { className: "toast-success" });
+              this.setState({ buttonColor: "success" });
+            } else {
+              toast.error(`✖️ Correct Solution: this`, {
+                className: "toast-error"
+              });
+              this.setState({ buttonColor: "danger" });
+              // Put question to back of queue
+            }
+          } else {
+            this.setState({ buttonColor: "info" });
+            this.incrementQuestion();
+          }
+        }}
       >
-        {lesson!.questions.length !== currentQuestionIndex + 1
-          ? "NEXT"
-          : "FINISH"}
+        {buttonColor === "info"
+          ? "CHECK"
+          : buttonColor === "success" || buttonColor === "danger"
+          ? "CONTINUE"
+          : lesson!.questions.length !== currentQuestionIndex + 1
+          ? "FINISH"
+          : ""}
       </Button>
     );
   }

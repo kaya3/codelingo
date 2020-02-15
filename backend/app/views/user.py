@@ -9,6 +9,9 @@ from app.mail import send_email
 import re
 import passwordmeter
 
+# TODO: don't do this later
+language_choice_required = login_required = lambda f: f
+
 def json_user_info(user):
 	return jsonify({
 		'username': user.username,
@@ -32,6 +35,7 @@ def user_login():
 
 @app.route('/who_am_i')
 def who_am_i():
+	current_user = User.query.get(1) # TODO
 	if current_user.is_authenticated:
 		return json_user_info(current_user)
 	else:

@@ -2,6 +2,7 @@ from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from flask_login import LoginManager, current_user
+#from flask_cors import CORS
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -10,6 +11,7 @@ app.debug = app.config['DEBUG_MODE']
 
 db = SQLAlchemy(app)
 mail = Mail(app)
+#cors = CORS(app) # allow CORS on all routes
 
 login_manager = LoginManager()
 login_manager.init_app(app)
