@@ -30,6 +30,13 @@ def login():
 		login_user(user, remember=True)
 		return user_info(user)
 
+@app.route('/who_am_i')
+def who_am_i():
+	if current_user.is_authenticated:
+		return user_info(current_user)
+	else:
+		return jsonify(None)
+
 @app.route('/user_info/<int:user_id>')
 def user_info(user_id):
 	user = User.query.get(user_id)

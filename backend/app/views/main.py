@@ -20,7 +20,6 @@ def choose_language(language_id):
 		db.session.commit()
 		return jsonify({})
 
-
 @app.route('/get_skills')
 @language_choice_required
 def get_skills():
