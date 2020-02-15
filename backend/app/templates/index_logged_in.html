@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 
-<p>Hi {{ current_user.username }}!</p>
+<p>Hi {{ current_user.username }}! You're learning {{ current_user.current_language.title }}.</p>
 
-Your language is {{ current_user.current_language.title }}.
+<p>Choose a skill to study:</p>
+<ul>
+{% for skill in skills %}
+<li><a href="{{ url_for('study', skill_id=skill.id) }}">{{ skill.name }}</a></li>
+{% endfor %}
+</ul>
 
 {% endblock %}

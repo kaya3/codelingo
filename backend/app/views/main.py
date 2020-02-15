@@ -13,7 +13,8 @@ def index():
 		langs = Language.query.all()
 		return render_template('choose_language.html', all_languages=langs)
 	else:
-		return render_template('index_logged_in.html')
+		skills = current_user.current_language.skills
+		return render_template('index_logged_in.html', skills=skills)
 
 @app.route('/choose_language/<int:language_id>', methods=['POST'])
 @login_required
@@ -26,6 +27,14 @@ def choose_language(language_id):
 		return redirect(url_for('index'))
 	else:
 		return 'Language not found.', 404
+
+@app.route('/study/<int:skill_id>')
+def study(skill_id):
+	skill = Skill.query.get(skill_id)
+	if skill:
+		return render_template('lesson.html', skill=skill)
+	else:
+		return 'Skill not found.', 404
 
 @app.route('/user/<username>')
 def user_info(username):
