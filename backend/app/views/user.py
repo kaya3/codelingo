@@ -9,6 +9,10 @@ from app.mail import send_email
 import re
 import passwordmeter
 
+# TODO: don't do this later
+language_choice_required = login_required = lambda f: f
+current_user = User.query.get(1)
+
 def json_user_info(user):
 	return jsonify({
 		'username': user.username,

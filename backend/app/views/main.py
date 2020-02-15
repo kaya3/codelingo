@@ -8,6 +8,10 @@ from app.models import *
 import random
 import itertools
 
+# TODO: don't do this later
+language_choice_required = login_required = lambda f: f
+current_user = User.query.get(1)
+
 @app.route('/choose_language/<int:language_id>', methods=['POST'])
 @login_required
 def choose_language(language_id):
