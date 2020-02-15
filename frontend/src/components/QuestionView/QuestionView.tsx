@@ -3,11 +3,19 @@ import { Button, Progress } from "reactstrap";
 import CodeBlockWithBlank from "../CodeBlockWithBlank";
 import { FaTimes } from "react-icons/fa";
 
+import { skillClient } from '../../network/skillClient';
+
 interface Props {}
 interface State {}
 
 class QuestionView extends PureComponent<Props, State> {
   state: State = {};
+
+  componentDidMount() {
+    skillClient.getNextLesson('1').then(response => {
+      console.log(response)
+    })
+  }
 
   render(): ReactNode {
     const question = {
