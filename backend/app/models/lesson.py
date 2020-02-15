@@ -14,6 +14,10 @@ class Language(db.Model):
 	
 	def __init__(self, name):
 		self.name = name
+	
+	@property
+	def title(self):
+		return self.name.title()
 
 class Skill(db.Model):
 	__tablename__ = 'skills'

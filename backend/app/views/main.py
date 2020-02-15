@@ -7,17 +7,27 @@ from app.models import *
 
 @app.route('/')
 def index():
-	if current_user.is_authenticated:
-		return render_template('index_logged_in.html')
-	else:
+	if not current_user.is_authenticated:
 		return render_template('index_logged_out.html')
+	elif not current_user.current_language:
+		langs = Language.query.all()
+		return render_template('choose_language.html', all_languages=langs)
+	else:
+		return render_template('index_logged_in.html')
 
-@app.route('/choose_language/<language>/')
+@app.route('/choose_language/<int:language_id>', methods=['POST'])
 @login_required
-def choose_language(language):
-	return redirect(url_for('index'))
+def choose_language(language_id):
+	language = Language.query.get(language_id)
+	if language:
+		current_user.current_language = language
+		db.session.add(current_user)
+		db.session.commit()
+		return redirect(url_for('index'))
+	else:
+		return 'Language not found.', 404
 
-@app.route('/user/<username>/')
+@app.route('/user/<username>')
 def user_info(username):
 	user = User.query.filter(User.username == username).one()
 	if user:
