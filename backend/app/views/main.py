@@ -54,5 +54,6 @@ def get_lesson(skill_id):
 		return jsonify({
 			'name': skill.name,
 			'language': skill.language.name,
-			'questions': [q.data for q in lesson.questions]
+			'lesson_id': lesson.id,
+			'questions': [q.data for q in lesson.questions],
 		})
