@@ -1,15 +1,19 @@
-import axios from "axios";
+import axios from 'axios';
 
-const API_URL = "";
+const API_URL = 'https://codelingo.werp.site/api';
 
-const axiosConfig = axios.create({
+const api = axios.create({
   baseURL: API_URL,
   timeout: 10000,
-  headers: "application/json"
+  headers: { 'Content-Type': 'application/json' },
 });
 
-export function getData<T = any>(uri: string, params: {} = {}) {
-  return axiosConfig.get<T>(uri, {
-    params
-  });
+export const request = {
+  getData<T = any>(uri: string, params: any): Promise<T> {
+    return api.get<T>(uri, {
+      params,
+    }).then(response => {
+      return response.data;
+    });
+  }
 }

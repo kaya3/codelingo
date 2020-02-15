@@ -16,13 +16,14 @@ class CodeBlockWithBlank extends PureComponent<Props, State> {
     const { code, language } = this.props;
 
     return (
-      <CodeBlock
-        text={code}
-        language={language}
-        showLineNumbers
-        theme={dracula}
-        wrapLines
-      />
+      <div className="code-block">
+        <CodeBlock
+          text={code}
+          language={language}
+          theme={dracula}
+          showLineNumbers={false}
+        />
+      </div>
     );
   }
 }
