@@ -58,7 +58,7 @@ def get_lesson(skill_id):
 			'questions': [q.data for q in lesson.questions],
 		})
 
-@app.route('/complete_lesson/<int:lesson_id>', methods=['POST'])
+@app.route('/complete_lesson/<int:lesson_id>')#, methods=['POST'])
 @language_choice_required
 def complete_lesson(lesson_id):
 	current_user = User.query.get(1) # TODO
@@ -75,7 +75,7 @@ def complete_lesson(lesson_id):
 				if lessons_in_skill == len(ids_completed) + 1:
 					skill_level.level = lesson.level
 				
-				completion = LessonCompleted(user, lesson)
+				completion = LessonCompleted(current_user, lesson)
 				db.session.add(skill_level)
 				db.session.add(completion)
 				db.session.commit()

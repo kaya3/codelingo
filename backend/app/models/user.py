@@ -43,7 +43,7 @@ class User(db.Model):
 	
 	def get_skill_level(self, skill):
 		from .progress import SkillLevel
-		level = SkillLevel.query.filter(SkillLevel.user_id == self.id).filter(SkillLevel.skill_id == skill.id).one_or_none()
+		level = self.skill_levels.filter(SkillLevel.skill_id == skill.id).one_or_none()
 		return level or SkillLevel(self, skill)
 	
 	def is_authenticated(self):
