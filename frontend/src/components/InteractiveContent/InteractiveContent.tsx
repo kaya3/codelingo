@@ -4,6 +4,12 @@ import { QuestionHandler } from "../../util/QuestionHandler";
 import { Question, Kind } from "../../model/Question";
 
 import CodeBlockWithBlank from "../CodeBlockWithBlank";
+import {
+  DragDropContext,
+  DropResult,
+  Droppable,
+  Draggable
+} from "react-beautiful-dnd";
 
 interface Props {
   kind: Kind;
@@ -12,9 +18,22 @@ interface Props {
   language?: string;
 }
 
-interface State {}
+interface State {
+  answerListOrientation: Orientation;
+}
+
+enum Orientation {
+  HORIZONTAL = "horizontal",
+  VERTICAL = "vertical"
+}
 
 class InteractiveContent extends PureComponent<Props, State> {
+  onDragEnd(result: DropResult) {
+    if (!result.destination) {
+      return;
+    }
+  }
+
   render(): ReactNode {
     const { code, language, question } = this.props;
     return (
@@ -28,18 +47,49 @@ class InteractiveContent extends PureComponent<Props, State> {
   }
 
   private renderAnswers(correctAnswers: string[], incorrectAnswers: string[]) {
+    const { kind } = this.props;
     const answers = correctAnswers.concat(incorrectAnswers);
 
     const shuffledAnswers = QuestionHandler.shuffleQuestions(answers);
 
     return (
-      <div className="answer-container">
-        {shuffledAnswers.map(answer => (
-          <div key={answer} className="answer">
-            <span>{answer}</span>
-          </div>
-        ))}
-      </div>
+      <DragDropContext onDragEnd={this.onDragEnd}>
+        <Droppable
+          direction={Orientation.HORIZONTAL}
+          isDropDisabled={kind === Kind.MULTIPLE_CHOICE}
+          droppableId="droppable"
+        >
+          {(provided, snapshot) => (
+            <div
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              className="answer-container"
+            >
+              {shuffledAnswers.map((answer, index) => (
+                <Draggable
+                  key={answer}
+                  isDragDisabled={kind === Kind.MULTIPLE_CHOICE}
+                  draggableId={answer}
+                  index={index}
+                >
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      key={answer}
+                      className="answer"
+                    >
+                      <span>{answer}</span>
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
     );
   }
 }
