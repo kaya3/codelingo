@@ -1,15 +1,28 @@
-import { request } from "./request";
+import { request } from './request';
 
 export const authClient = {
 
   login(username: string, password: string): Promise<any> {
-    return request.postData('/api/login', '').then(response => {
+    const formData = new FormData();
+
+    formData.append('username', username);
+    formData.append('password', password);
+
+    console.log('sending login request');
+
+    return request.postData('/login', formData).then(response => {
       return true;
     });
   },
 
   logout(): Promise<boolean> {
-    return request.postData('/api/logout', '').then(response => {
+    return request.postData('/logout', new FormData()).then(response => {
+      return true;
+    });
+  },
+
+  getWhoAmI(): Promise<boolean> {
+    return request.getData('/who_am_i', {}).then(response => {
       return true;
     });
   },

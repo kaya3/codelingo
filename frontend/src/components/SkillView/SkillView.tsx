@@ -2,6 +2,7 @@ import React, { PureComponent, ReactNode } from "react";
 import { Button, Progress } from "reactstrap";
 import { skillClient } from "../../network/skillClient";
 import { Skill } from "../../model/Skill";
+import { authClient } from "../../network/authClient";
 
 interface Props {}
 
@@ -15,7 +16,12 @@ class SkillView extends PureComponent<Props, State> {
   };
 
   componentDidMount() {
+    authClient.getWhoAmI().then(whoAmI => {
+      console.log(whoAmI);
+    });
+
     skillClient.getSkills().then(skills => {
+      console.log(skills);
       this.setState({
         skills,
       });

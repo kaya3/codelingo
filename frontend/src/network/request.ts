@@ -8,6 +8,7 @@ const api = axios.create({
   baseURL: API_URL,
   timeout: 10000,
   headers: { 'Content-Type': 'application/json' },
+  withCredentials: true,
 });
 
 export const request = {
@@ -19,10 +20,8 @@ export const request = {
     });
   },
 
-  postData<T = any>(uri: string, body: string): Promise<T> {
-    return api.post<T>(uri, {
-      body,
-    }).then(response => {
+  postData<T = any>(uri: string, body: FormData): Promise<T> {
+    return api.post<T>(uri, body).then(response => {
       return response.data;
     });
   },
