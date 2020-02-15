@@ -29,13 +29,11 @@ def choose_language(language_id):
 def get_skills():
 	current_user = User.query.get(1) # TODO
 	def skill_stats(skill):
-		# TODO: compute stats
-		level = 0
-		progress = 0.5
+		skill_level = current_user.get_skill_level(skill)
 		return {
 			'name': skill.name,
-			'level': level,
-			'level_progress': progress,
+			'level': skill_level.level,
+			'level_progress': skill_level.progress,
 		}
 	
 	skills = Skill.query.filter(Skill.language_id == current_user.current_language_id).order_by(Skill.order)
