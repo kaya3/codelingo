@@ -10,11 +10,11 @@ import itertools
 
 # TODO: don't do this later
 language_choice_required = login_required = lambda f: f
-current_user = User.query.get(1)
 
 @app.route('/choose_language/<int:language_id>', methods=['POST'])
 @login_required
 def choose_language(language_id):
+	current_user = User.query.get(1) # TODO
 	language = Language.query.get(language_id)
 	if not language:
 		return jsonify({ 'error': 'Language not found.' }), 404
@@ -27,6 +27,7 @@ def choose_language(language_id):
 @app.route('/get_skills')
 @language_choice_required
 def get_skills():
+	current_user = User.query.get(1) # TODO
 	def skill_stats(skill):
 		# TODO: compute stats
 		level = 0
@@ -46,6 +47,7 @@ def get_skills():
 @app.route('/get_next_lesson/<int:skill_id>')
 @language_choice_required
 def get_lesson(skill_id):
+	current_user = User.query.get(1) # TODO
 	skill = Skill.query.get(skill_id)
 	if not skill:
 		return 'Skill not found.', 404

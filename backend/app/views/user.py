@@ -11,7 +11,6 @@ import passwordmeter
 
 # TODO: don't do this later
 language_choice_required = login_required = lambda f: f
-current_user = User.query.get(1)
 
 def json_user_info(user):
 	return jsonify({
@@ -36,6 +35,7 @@ def user_login():
 
 @app.route('/who_am_i')
 def who_am_i():
+	current_user = User.query.get(1) # TODO
 	if current_user.is_authenticated:
 		return json_user_info(current_user)
 	else:
