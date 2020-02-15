@@ -1,5 +1,6 @@
 import React, { PureComponent, ReactNode } from "react";
 import { Button, Progress } from "reactstrap";
+import CodeBlockWithBlank from "./CodeBlockWithBlank";
 
 interface Props {}
 interface State {}
@@ -10,14 +11,32 @@ class QuestionView extends PureComponent<Props, State> {
   render(): ReactNode {
     const question = {
       text: "Fill in the blanks",
-      code: "blah blah"
+      code: `class HelloMessage extends React.Component {
+        handlePress = () => {
+          alert('Hello')
+        }
+        render() {
+          return (
+            <div>
+              <p>Hello {this.props.name}</p>
+              <button onClick={this.handlePress}>Say Hello</button>
+            </div>
+          );
+        }
+      }`,
+      language: "jsx",
+      blank: "test"
     };
 
     return (
       <>
         <Progress />
         <h4 className="text-muted">{question.text}</h4>
-        {question.code}
+        <CodeBlockWithBlank
+          code={question.code}
+          language={question.language}
+          blank={question.blank}
+        />
         {this.renderAnswers()}
         {this.renderButton()}
       </>
