@@ -21,7 +21,6 @@ def login():
 	
 	username = request.form['username']
 	password = request.form['password']
-	action = request.form['action']
 	
 	user = User.get_by_username(username)
 	if not user or not user.check_password(password):
@@ -48,11 +47,8 @@ def user_info(user_id):
 @app.route('/reset_password', methods=['POST'])
 def reset_password():
 	username = request.form['username']
-	password = request.form['password']
-	action = request.form['action']
 	
 	user = User.get_by_username(username)
-	
 	if user:
 		tmp_pw = user.generate_tmp_password()
 		from app.mail import send_email
