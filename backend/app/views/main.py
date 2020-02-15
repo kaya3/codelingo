@@ -69,7 +69,7 @@ def complete_lesson(lesson_id):
 		skill_level = current_user.get_skill_level(lesson.skill)
 		if skill_level.level < lesson.level:
 			ids_completed = set(l.id for l in current_user.lessons_completed if l.skill == lesson.skill)
-			if lesson.id not in lessons_completed:
+			if lesson.id not in ids_completed:
 				lessons_in_skill = lesson.skill.lessons.filter(Lesson.level == lesson.level).count()
 				skill_level.progress = (ids_completed + 1) / lessons_in_skill
 				if lessons_in_skill == len(ids_completed) + 1:
