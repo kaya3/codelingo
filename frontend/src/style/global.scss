@@ -45,6 +45,15 @@ code {
   }
 }
 
+@media only screen and (max-width: 600px) {
+  .continue-button {
+    position: fixed;
+    bottom: 20px;
+    padding: 10px;
+    width: calc(100% - 20px);
+  }
+}
+
 .toast-error {
   background-color: $danger;
 }

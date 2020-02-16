@@ -82,6 +82,10 @@ class SkillView extends PureComponent<Props, State> {
               }
             >
               <PopoverBody>
+                <p>
+                  <span className="font-weight-bold">Lesson</span> {skill.level}{" "}
+                  / {skill.total_lessons}
+                </p>
                 <Link to={`/lesson/${skill.id}`}>
                   <Button className="button button-info">LEARN SKILL</Button>
                 </Link>

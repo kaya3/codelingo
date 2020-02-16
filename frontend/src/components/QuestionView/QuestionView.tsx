@@ -135,7 +135,7 @@ class QuestionView extends PureComponent<Props & RouteProps, State> {
 
     return (
       <Button
-        className={`button button-${buttonColor}`}
+        className={`continue-button button button-${buttonColor}`}
         color={buttonColor}
         onClick={() => {
           if (buttonColor === "info") {
