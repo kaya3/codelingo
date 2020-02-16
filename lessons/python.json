@@ -1,0 +1,299 @@
+[
+	{"skill": "Basics", "order": 1, "lessons": [
+		{"level": 1, "questions": [
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the code to print <samp>Hello, world!</samp>.</p>",
+				"correct": ["print('Hello, world!')"],
+				"incorrect": ["Hello(world)", "print(Hello, world!)"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the code to print <samp>Codelingo</samp>.</p>",
+				"correct": ["print('Codelingo')"],
+				"incorrect": ["Codelingo(print)", "print(Codelingo)"]
+			}
+		]},
+		{"level": 2, "questions": [
+			{
+				"kind": "blocks",
+				"text": "<p>Write code to print the string <code>'Hello, world!'</code>.</p>",
+				"correct": ["print", "(", "'Hello, world!'", ")"],
+				"incorrect": []
+			},
+			{
+				"kind": "blocks",
+				"text": "<p>Write code to print the string <code>'Codelingo'</code>.</p>",
+				"correct": ["print", "(", "'Codelingo'", ")"],
+				"incorrect": []
+			},
+			{
+				"kind": "blocks",
+				"text": "<p>Write code to print the number <code>12345</code>.</p>",
+				"correct": ["print", "(", "12345", ")"],
+				"incorrect": []
+			},
+			{
+				"kind": "blocks",
+				"text": "<p>Write code to print the number <code>54321</code>.</p>",
+				"correct": ["print", "(", "54321", ")"],
+				"incorrect": []
+			}
+		]},
+		{"level": 2, "questions": [
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the code to print <samp>Two words</samp>.</p>",
+				"correct": ["print('Two', 'words')"],
+				"incorrect": ["print('Two'), 'words'", "print('Two'; 'words')"]
+			},
+			{
+				"kind": "blocks",
+				"text": "<p>Write code to print <samp>Codelingo</samp>.</p>",
+				"correct": ["print", "(", "'Codelingo'", ")"],
+				"incorrect": ["Codelingo", "'print'"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the code to print <samp>1 2 3</samp>, with spaces.</p>",
+				"correct": ["print(1, 2, 3)"],
+				"incorrect": ["print(123)", "print(1, ' ', 2, ' ', 3)"]
+			},
+			{
+				"kind": "blocks",
+				"text": "<p>Write the code to print <samp>Hello, world!</samp>.</p>",
+				"correct": ["print", "(", "'Hello, world!'", ")"],
+				"incorrect": ["'Hello'", "'print'"]
+			}
+		]}
+	]},
+	{"skill": "Expressions", "order": 2, "lessons": [
+		{"level": 1, "questions": [
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the result of the expression <code>1 + 1</code>.</p>",
+				"correct": ["2"],
+				"incorrect": ["'1 + 1'", "11"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the result of the expression <code>3 * 4</code>.</p>",
+				"correct": ["12"],
+				"incorrect": ["'3 * 4'", "34"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the result of the expression <code>12 - 5</code>.</p>",
+				"correct": ["7"],
+				"incorrect": ["'12 - 5'", "125"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the result of the expression <code>1 + 1 == 2</code>.</p>",
+				"correct": ["True"],
+				"incorrect": ["False", "None"]
+			}
+		]},
+		{"level": 2, "questions": [
+			{
+				"kind": "blocks",
+				"text": "<p>Write an expression to add the numbers 1, 2 and 3.</p>",
+				"correct": ["1", "+", "2", "+", "3"],
+				"incorrect": []
+			},
+			{
+				"kind": "blocks",
+				"text": "<p>Write an expression to multiply the numbers 4 and 5",
+				"correct": ["4", "*", "5"],
+				"incorrect": ["+"]
+			},
+			{
+				"kind": "blocks",
+				"text": "<p>Write an expression to add the numbers 123 and 321.</p>",
+				"correct": ["123", "+", "321"],
+				"incorrect": ["*"]
+			},
+			{
+				"kind": "blocks",
+				"text": "<p>Write code to print the number <code>2</code>.</p>",
+				"correct": ["print", "(", "1", "+", "1", ")"],
+				"incorrect": []
+			},
+			{
+				"kind": "blocks",
+				"text": "<p>Write an expression to check whether the numbers 3 and 6 are equal.",
+				"correct": ["3", "==", "6"],
+				"incorrect": ["="]
+			},
+		]},
+		{"level": 2, "questions": [
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the value of the expression <code>1 + 2 * 3</code>.</p>",
+				"correct": ["7"],
+				"incorrect": ["9", "3"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the value of the expression <code>2 + 3 * 4</code>.</p>",
+				"correct": ["14"],
+				"incorrect": ["20", "4"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the value of the expression <code>2 * 3 + 4</code>.</p>",
+				"correct": ["10"],
+				"incorrect": ["14", "4"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the value of the expression <code>(1 + 2) * 3</code>.</p>",
+				"correct": ["9"],
+				"incorrect": ["7", "36"]
+			}
+		]}
+	]},
+	{"skill": "Types", "order": 2, "lessons": [
+		{"level": 1, "questions": [
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the type of the value <code>13</code>.</p>",
+				"correct": ["int"],
+				"incorrect": ["str", "bool"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the type of the value <code>True</code>.</p>",
+				"correct": ["bool"],
+				"incorrect": ["str", "int"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the type of the value <code>'Hello'</code>.</p>",
+				"correct": ["str"],
+				"incorrect": ["int", "bool"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the type of the value <code>'Codelingo'</code>.</p>",
+				"correct": ["str"],
+				"incorrect": ["int", "bool"]
+			}
+		]},
+		{"level": 2, "questions": [
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the type of the value <code>13</code>.</p>",
+				"correct": ["int"],
+				"incorrect": ["number", "integer"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the type of the value <code>False</code>.</p>",
+				"correct": ["bool"],
+				"incorrect": ["boolean", "False"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the type of the value <code>'1234'</code>.</p>",
+				"correct": ["str"],
+				"incorrect": ["int", "string"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the type of the value <code>3.14</code>.</p>",
+				"correct": ["float"],
+				"incorrect": ["int", "str"]
+			}
+		]},
+		{"level": 2, "questions": [
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose a value of type <code>int</code>.</p>",
+				"correct": ["21"],
+				"incorrect": ["'Hello'", "False"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose a value of type <code>str</code>.</p>",
+				"correct": ["'Hello'"],
+				"incorrect": ["42", "True"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose a value of type <code>float</code>.</p>",
+				"correct": ["2.718"],
+				"incorrect": ["'2.718'", "2"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose a value of type <code>float</code>.</p>",
+				"correct": ["10.0"],
+				"incorrect": ["10", "'10.0'"]
+			}
+		]},
+		{"level": 2, "questions": [
+			{
+				"kind": "blocks",
+				"text": "<p>Write code to convert the number 7 to type <code>str</code>.</p>",
+				"correct": ["str", "(", "7", ")"],
+				"incorrect": ["int", "bool"]
+			},
+			{
+				"kind": "blocks",
+				"text": "<p>Write code to convert the floating-point number 1.618 to type <code>str</code>.</p>",
+				"correct": ["str", "(", "1.618", ")"],
+				"incorrect": ["int", "float"]
+			},
+			{
+				"kind": "blocks",
+				"text": "<p>Write code to convert the string <code>'56'</code> to type <code>int</code>.</p>",
+				"correct": ["int", "(", "'56'", ")"],
+				"incorrect": ["str"]
+			},
+			{
+				"kind": "blocks",
+				"text": "<p>Write code to convert the string <code>'3.14'</code> to type <code>float</code>.</p>",
+				"correct": ["float", "(", "'3.14'", ")"],
+				"incorrect": ["int", "str"]
+			}
+		]}
+	]},
+	{"skill": "Variables", "order": 3, "lessons": [
+		{"level": 1, "questions": [
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the code to declare a variable named <code>x</code>.</p>",
+				"correct": ["x = 3"],
+				"incorrect": ["x == 3", "3 = x"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the code to declare a variable named <code>greeting</code>.</p>",
+				"correct": ["greeting = 'Hello'"],
+				"incorrect": ["greeting == 'Hello'", "'Hello' = greeting"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the code to declare a variable named <code>price</code>.</p>",
+				"correct": ["price = 7.99"],
+				"incorrect": ["'price' = 7.99", "print(price)"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the code to declare a variable named <code>first_name</code>.</p>",
+				"correct": ["first_name = 'Alex'"],
+				"incorrect": ["'first_name' = 'Alex'", "print(first_name, 'Alex')"]
+			}
+		]}
+	]},
+	{"skill": "Strings", "order": 3, "lessons": [
+		
+	]},
+	{"skill": "Assignment", "order": 4, "lessons": [
+		
+	]},
+	{"skill": "Lists", "order": 4, "lessons": [
+		
+	]}
+]
