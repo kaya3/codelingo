@@ -11,6 +11,16 @@ import itertools
 # TODO: don't do this later
 language_choice_required = login_required = lambda f: f
 
+def skill_stats(user, skill):
+	skill_level = user.get_skill_level(skill)
+	return {
+		'id': skill.id,
+		'name': skill.name,
+		'level': skill_level.level,
+		'level_progress': skill_level.progress,
+		'total_lessons': sum(1 for _ in skill.lessons.filter_by(level=skill_level.level + 1)),
+	}
+
 @app.route('/get_languages')
 def get_languages():
 	languages = {
@@ -36,18 +46,9 @@ def choose_language(language_id):
 @language_choice_required
 def get_skills():
 	current_user = User.query.get(1) # TODO
-	def skill_stats(skill):
-		skill_level = current_user.get_skill_level(skill)
-		return {
-			'id': skill.id,
-			'name': skill.name,
-			'level': skill_level.level,
-			'level_progress': skill_level.progress,
-		}
-	
 	skills = Skill.query.filter(Skill.language_id == current_user.current_language_id).order_by(Skill.order)
 	return jsonify(skills=[
-		[skill_stats(skill) for skill in v]
+		[skill_stats(current_user, skill) for skill in v]
 		for _, v in itertools.groupby(skills, key=lambda s: s.order)
 	])
 
@@ -88,17 +89,20 @@ def complete_lesson(lesson_id):
 		return 'Lesson not found.', 404
 	else:
 		skill_level = current_user.get_skill_level(lesson.skill)
+		completion = current_user.lessons_completed.filter_by(lesson_id=lesson.id).one_or_none() or LessonCompleted(current_user, lesson)
+		db.session.add(completion)
+		
 		if skill_level.level < lesson.level:
-			ids_completed = set(l.id for l in current_user.lessons_completed if l.skill == lesson.skill)
+			ids_completed = set(l.id for l in current_user.lessons_completed if l.lesson.skill_id == lesson.skill)
 			if lesson.id not in ids_completed:
 				lessons_in_skill = lesson.skill.lessons.filter(Lesson.level == lesson.level).count()
 				skill_level.progress = (len(ids_completed) + 1) / lessons_in_skill
 				if lessons_in_skill == len(ids_completed) + 1:
 					skill_level.level = lesson.level
 				
-				completion = LessonCompleted(current_user, lesson)
 				db.session.add(skill_level)
-				db.session.add(completion)
-				db.session.commit()
 		
-		return jsonify({})
+		completion.number_of_times += 1
+		db.session.commit()
+		
+		return jsonify(skill_stats(current_user, lesson.skill))
