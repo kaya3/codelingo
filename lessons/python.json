@@ -310,30 +310,23 @@
 		]}
 	]},
 	{"skill": "Assignment", "order": 4, "lessons": [
-		{"level": 2, "questions": [
-			{
-				"kind": "blocks",
-				"text": "<p>Write code to find the sum of the numbers in <code>nums</code>.</p>",
-				"correct": ["sum", "(", "nums", ")"],
-				"incorrect": ["total", "[", "]"]
-			},
+		{"level": 1, "questions": [
 			{
 				"kind": "multiple_choice",
-				"text": "<p>What is the result of <code>sum([2, 5])</code>?</p>",
-				"correct": ["7"],
-				"incorrect": ["2", "5"]
+				"text": "<p>Copy the value from the variable <code>foo</code> to the variable <code>bar</code>.</p>",
+				"correct": ["bar = foo"],
+				"incorrect": ["foo = bar", "bar == foo"]
 			},
 			{
-				"kind": "blanks",
-				"text": "<p>Complete the code to print each number from <code>nums</code>.</p>",
-				"template": ["for ", " in nums:\n\t", "(x)"],
-				"correct": ["x", "print"],
-				"incorrect": ["sum", "output", "nums"]
+				"kind": "blocks",
+				"text": "<p>Add the numbers 3 and 4, and assign the result to <code>result</code>?</p>",
+				"correct": ["result", "=", "3", "+", "4"],
+				"incorrect": []
 			}
 		]}
 	]},
 	{"skill": "Lists", "order": 4, "lessons": [
-		{"level": 2, "questions": [
+		{"level": 1, "questions": [
 			{
 				"kind": "blocks",
 				"text": "<p>Write code to find the sum of the numbers in <code>nums</code>.</p>",
@@ -345,13 +338,6 @@
 				"text": "<p>What is the result of <code>sum([2, 5])</code>?</p>",
 				"correct": ["7"],
 				"incorrect": ["2", "5"]
-			},
-			{
-				"kind": "blanks",
-				"text": "<p>Complete the code to print each number from <code>nums</code>.</p>",
-				"template": ["for ", " in nums:\n\t", "(x)"],
-				"correct": ["x", "print"],
-				"incorrect": ["sum", "output", "nums"]
 			}
 		]}
 	]}
