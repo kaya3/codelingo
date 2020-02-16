@@ -5,7 +5,7 @@ from app import app, db
 class LessonCompleted(db.Model):
 	__tablename__ = 'lessonscompleted'
 	id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
-	number_of_times = db.Column('number_of_times', db.Integer, default=0)
+	number_of_times = db.Column('number_of_times', db.Integer)
 	
 	user_id = db.Column('user_id', db.Integer, db.ForeignKey('users.id'), nullable=True)
 	lesson_id = db.Column('lesson_id', db.Integer, db.ForeignKey('lessons.id'), nullable=True)
@@ -13,6 +13,7 @@ class LessonCompleted(db.Model):
 	def __init__(self, user, lesson):
 		self.user = user
 		self.lesson = lesson
+		self.number_of_times = 0
 
 class SkillLevel(db.Model):
 	__tablename__ = 'skilllevels'

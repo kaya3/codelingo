@@ -54,7 +54,7 @@ def get_skills():
 
 @app.route('/get_next_lesson/<int:skill_id>')
 @language_choice_required
-def get_lesson(skill_id):
+def get_next_lesson(skill_id):
 	current_user = User.query.get(1) # TODO
 	skill = Skill.query.get(skill_id)
 	if not skill:
@@ -88,21 +88,26 @@ def complete_lesson(lesson_id):
 	if not lesson:
 		return 'Lesson not found.', 404
 	else:
-		skill_level = current_user.get_skill_level(lesson.skill)
-		completion = current_user.lessons_completed.filter_by(lesson_id=lesson.id).one_or_none() or LessonCompleted(current_user, lesson)
-		db.session.add(completion)
+		skill = lesson.skill
+		skill_level = current_user.get_skill_level(skill)
 		
 		if skill_level.level < lesson.level:
-			ids_completed = set(l.id for l in current_user.lessons_completed if l.lesson.skill_id == lesson.skill)
+			ids_completed = set(l.id for l in current_user.lessons_completed if l.lesson.skill_id == skill.id and l.lesson.level == lesson.level)
+			print(ids_completed)
 			if lesson.id not in ids_completed:
-				lessons_in_skill = lesson.skill.lessons.filter(Lesson.level == lesson.level).count()
+				lessons_in_skill = skill.lessons.filter(Lesson.level == lesson.level).count()
 				skill_level.progress = (len(ids_completed) + 1) / lessons_in_skill
 				if lessons_in_skill == len(ids_completed) + 1:
 					skill_level.level = lesson.level
+					if skill.lessons.filter(Lesson.level > lesson.level).count() > 0:
+						skill_level.progress = 0
 				
 				db.session.add(skill_level)
 		
+		completion = current_user.lessons_completed.filter_by(lesson_id=lesson.id).one_or_none() or LessonCompleted(current_user, lesson)
 		completion.number_of_times += 1
+		
+		db.session.add(completion)
 		db.session.commit()
 		
 		return jsonify(skill_stats(current_user, lesson.skill))
