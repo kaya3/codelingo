@@ -3,20 +3,20 @@ import { Button, Popover, PopoverBody } from "reactstrap";
 import { skillClient } from "../../network/skillClient";
 import { Skill } from "../../model/Skill";
 import { authClient } from "../../network/authClient";
-import { FaListUl, FaThumbsUp, FaEquals, FaFont,  } from "react-icons/fa";
+import { FaListUl, FaThumbsUp, FaEquals, FaFont } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import randomcolor from 'randomcolor';
+import randomcolor from "randomcolor";
 
 interface Props {}
 
 interface State {
   skills: RenderedSkill[][];
   popoverOpen?: string;
-  popoverColour?: string,
+  popoverColour?: string;
 }
 
 interface RenderedSkill extends Skill {
-  colour: string,
+  colour: string;
 }
 
 class SkillView extends PureComponent<Props, State> {
@@ -33,17 +33,19 @@ class SkillView extends PureComponent<Props, State> {
       console.log(skills);
       this.setState({
         skills: skills.map(s1 => {
-          return s1.map(s => ({ ...s, colour: randomcolor() }))
-        }),
+          return s1.map(s => ({ ...s, colour: randomcolor() }));
+        })
       });
     });
   }
 
   render(): ReactNode {
     return (
-      <div className="skill-view d-flex justify-content-center flex-column align-items-center p-2"
-      //@ts-ignore
-      style={ { ['--colour']: this.state.popoverColour } }>
+      <div
+        className="skill-view d-flex justify-content-center flex-column align-items-center p-2"
+        //@ts-ignore
+        style={{ ["--colour"]: this.state.popoverColour }}
+      >
         <div className="d-flex w-100 justify-content-center align-items-center p-2">
           <h2 className="logo font-weight-bold">codelingo</h2>
         </div>
@@ -68,27 +70,33 @@ class SkillView extends PureComponent<Props, State> {
             className="skill-wrapper text-center m-2"
             key={innerIndex}
             //@ts-ignore
-            style={ { ['--colour']: skill.colour } }
+            style={{ ["--colour"]: skill.colour }}
             onClick={() => {
-                this.setState({
-                  popoverOpen:
-                    this.state.popoverOpen ===
-                    `skill-container-${outerIndex}-${innerIndex}`
-                      ? undefined
-                      : `skill-container-${outerIndex}-${innerIndex}`
-                })
+              this.setState({
+                popoverOpen:
+                  this.state.popoverOpen ===
+                  `skill-container-${outerIndex}-${innerIndex}`
+                    ? undefined
+                    : `skill-container-${outerIndex}-${innerIndex}`
+              });
 
-                this.setState({ popoverColour: skill.colour });
-              }
-            }
+              this.setState({ popoverColour: skill.colour });
+            }}
           >
             <div className="skill-container">
               <div className="skill-icon-wrapper">
-              {  skill.name === 'Basics'
-                  ? <FaThumbsUp /> :
-                  skill.name === 'Expressions' || skill.name === 'Assignment' ? <FaEquals /> :
-                  skill.name === 'Types' || skill.name === 'Variables' || skill.name === 'Strings' ? <FaFont /> :
-                  <FaListUl /> }
+                {skill.name === "Basics" ? (
+                  <FaThumbsUp />
+                ) : skill.name === "Expressions" ||
+                  skill.name === "Assignment" ? (
+                  <FaEquals />
+                ) : skill.name === "Types" ||
+                  skill.name === "Variables" ||
+                  skill.name === "Strings" ? (
+                  <FaFont />
+                ) : (
+                  <FaListUl />
+                )}
               </div>
             </div>
             <p className="font-weight-bold">{skill.name}</p>
@@ -102,8 +110,9 @@ class SkillView extends PureComponent<Props, State> {
             >
               <PopoverBody>
                 <p>
-                  <span className="font-weight-bold">Lesson</span> {skill.level}{" "}
-                  / {skill.total_lessons}
+                  <span className="font-weight-bold">Lesson</span>{" "}
+                  {Math.round(skill.total_lessons * skill.level_progress)} /{" "}
+                  {skill.total_lessons}
                 </p>
                 <Link to={`/lesson/${skill.id}`}>
                   <Button className="button button-info">LEARN SKILL</Button>
