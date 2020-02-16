@@ -15,7 +15,7 @@ def skill_stats(user, skill):
 	skill_level = user.get_skill_level(skill)
 	total_lessons = sum(1 for _ in skill.lessons.filter_by(level=skill_level.level + 1))
 	if total_lessons == 0:
-		total_lessons = sum(1 for _ in skill.lessons)
+		total_lessons = sum(1 for _ in skill.lessons.filter_by(level=skill_level.level))
 	return {
 		'id': skill.id,
 		'name': skill.name,
