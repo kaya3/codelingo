@@ -55,7 +55,7 @@ class SkillView extends PureComponent<Props, State> {
 
   private renderSkills() {
     return this.state.skills.map((skillRow, outerIndex) => (
-      <div className="d-flex" key={outerIndex}>
+      <div className="d-flex flex-wrap justify-content-center" key={outerIndex}>
         {skillRow.map((skill, innerIndex) => (
           <div
             id={`skill-container-${outerIndex}-${innerIndex}`}
