@@ -197,8 +197,11 @@ class QuestionView extends PureComponent<Props & RouteProps, State> {
     return (
       <div className="complete-screen d-flex justify-content-center align-items-center">
         <div className="d-flex flex-column justify-content-center">
-          <span className="text-muted m-2 text-center">
-            Congratz! Skill finished
+          <span
+            className="text-muted m-2 text-center"
+            style={{ paddingTop: "4.5rem" }}
+          >
+            Congratz! Skill finished.
           </span>
           <Link to="/skills">
             <Button className="button button-info">COMPLETE MORE SKILLS</Button>
