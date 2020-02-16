@@ -17,7 +17,7 @@ import {
 interface Props {
   kind: Kind;
   question: Question;
-  code?: string[];
+  code?: string;
   language?: string;
   updateAnswer: (userAnswer: string[]) => void;
 }
@@ -56,6 +56,19 @@ class InteractiveContent extends PureComponent<Props, State> {
   }
 
   updatePossibleAnswers() {
+    const { kind } = this.props;
+
+    if (kind === Kind.BLANKS) {
+      const codeBlock = document.getElementById("code-block");
+
+      if (codeBlock) {
+        codeBlock.innerHTML = codeBlock.innerHTML.replace(
+          /###BLANK###/g,
+          `<span class="blank"></span>`
+        );
+      }
+    }
+
     let possibleAnswers = this.props.question.correct.concat(
       this.props.question.incorrect
     );
@@ -112,7 +125,7 @@ class InteractiveContent extends PureComponent<Props, State> {
   }
 
   render(): ReactNode {
-    const { code, language, question, kind } = this.props;
+    const { code, language, kind } = this.props;
     const { userAnswer } = this.state;
     return (
       <>
