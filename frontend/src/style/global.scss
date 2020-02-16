@@ -63,16 +63,17 @@ code {
 }
 
 .popover {
-  background-color: $warning;
+  background-color: white;
   border-color: transparent;
   border-radius: 10px;
   padding: 1rem;
   color: white;
   border-width: 0 0 4px;
-  border-color: darken($color: $warning, $amount: 15);
+  border-color: $gray-300;
+  box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.5);
 
   .arrow::after {
-    border-bottom-color: $warning !important;
+    border-bottom-color: $gray-300 !important;
   }
 
   .arrow::before {
