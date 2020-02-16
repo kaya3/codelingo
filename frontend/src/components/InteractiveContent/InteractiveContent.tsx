@@ -157,7 +157,7 @@ class InteractiveContent extends PureComponent<Props, State> {
                   >
                     {userAnswer.map((answer, index) => (
                       <Draggable
-                        key={answer}
+                        key={`${answer}-${index}`}
                         draggableId={answer}
                         index={index}
                       >
@@ -166,8 +166,8 @@ class InteractiveContent extends PureComponent<Props, State> {
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            key={answer}
                             className="answer"
+                            key={`drag-answer-${answer}-${index}`}
                             onClick={() => {
                               const userAnswer = Array.from(
                                 this.state.userAnswer
@@ -236,57 +236,63 @@ class InteractiveContent extends PureComponent<Props, State> {
             {...provided.droppableProps}
             className="answer-container"
           >
-            {possibleAnswers.map((answer, index) => (
-              <Draggable
-                key={answer}
-                isDragDisabled={kind === Kind.MULTIPLE_CHOICE}
-                draggableId={answer}
-                index={index}
-              >
-                {(provided, snapshot) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    key={answer}
-                    className={classNames("answer", {
-                      active: this.state.userAnswer.includes(answer)
-                    })}
-                    onClick={() => {
-                      const userAnswer = Array.from(this.state.userAnswer);
-                      const possibleAnswers = Array.from(
-                        this.state.possibleAnswers!
-                      );
-
-                      userAnswer.push(answer);
-
-                      if (kind === Kind.BLOCKS) {
-                        const index = possibleAnswers.findIndex(
-                          (possibleAnswer: string) => possibleAnswer === answer
+            {possibleAnswers.map((answer, index) => {
+              return (
+                <Draggable
+                  key={`${answer}-${index}`}
+                  isDragDisabled={kind === Kind.MULTIPLE_CHOICE}
+                  draggableId={answer}
+                  index={index}
+                >
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      className={classNames("answer", {
+                        active:
+                          (this.state.userAnswer.includes(answer) &&
+                            kind === Kind.MULTIPLE_CHOICE) ||
+                          kind === Kind.BLANKS
+                      })}
+                      key={`drag-option-${answer}-${index}`}
+                      onClick={() => {
+                        const userAnswer = Array.from(this.state.userAnswer);
+                        const possibleAnswers = Array.from(
+                          this.state.possibleAnswers!
                         );
-                        possibleAnswers.splice(index, 1);
-                      } else if (kind === Kind.MULTIPLE_CHOICE) {
-                        if (userAnswer.length > 1) {
-                          userAnswer.splice(0, 1);
-                        }
-                      }
 
-                      this.setState(
-                        {
-                          //@ts-ignore
-                          userAnswer,
-                          //@ts-ignore
-                          possibleAnswers
-                        },
-                        () => updateAnswer(this.state.userAnswer)
-                      );
-                    }}
-                  >
-                    <span>{answer}</span>
-                  </div>
-                )}
-              </Draggable>
-            ))}
+                        userAnswer.push(answer);
+
+                        if (kind === Kind.BLOCKS) {
+                          const index = possibleAnswers.findIndex(
+                            (possibleAnswer: string) =>
+                              possibleAnswer === answer
+                          );
+                          possibleAnswers.splice(index, 1);
+                        } else if (kind === Kind.MULTIPLE_CHOICE) {
+                          if (userAnswer.length > 1) {
+                            userAnswer.splice(0, 1);
+                          }
+                        }
+
+                        this.setState(
+                          {
+                            //@ts-ignore
+                            userAnswer,
+                            //@ts-ignore
+                            possibleAnswers
+                          },
+                          () => updateAnswer(this.state.userAnswer)
+                        );
+                      }}
+                    >
+                      <span>{answer}</span>
+                    </div>
+                  )}
+                </Draggable>
+              );
+            })}
             {provided.placeholder}
           </div>
         )}
