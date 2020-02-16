@@ -2,10 +2,14 @@ import { request } from './request';
 
 import { Lesson } from '../model/Lesson';
 import { Skill } from '../model/Skill';
+import { SkillsResponse } from '../model/SkillsResponse';
 
 export const skillClient = {
   getSkills(): Promise<Skill[][]> {
-    return request.getData<Skill[][]>('/get_skills', {});
+    return request.getData<SkillsResponse>('/get_skills', {})
+      .then(skillsResponse => {
+        return skillsResponse.skills;
+      });
   },
 
   getNextLesson(skillID: string): Promise<Lesson> {
