@@ -12,6 +12,7 @@ import itertools
 language_choice_required = login_required = lambda f: f
 
 def skill_stats(skill):
+	current_user = User.query.get(1) # TODO
 	skill_level = current_user.get_skill_level(skill)
 	return {
 		'id': skill.id,
