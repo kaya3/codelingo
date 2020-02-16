@@ -124,6 +124,9 @@ class QuestionView extends PureComponent<Props, State> {
   private renderButton() {
     const { lesson, currentQuestionIndex, buttonColor } = this.state;
 
+    const questions = lesson!.questions;
+    const question = questions[currentQuestionIndex];
+
     return (
       <Button
         className={`button button-${buttonColor}`}
@@ -134,9 +137,12 @@ class QuestionView extends PureComponent<Props, State> {
               toast.success("✔️ Correct", { className: "toast-success" });
               this.setState({ buttonColor: "success" });
             } else {
-              toast.error(`✖️ Correct Solution: this`, {
-                className: "toast-error"
-              });
+              toast.error(
+                `✖️ Correct Solution: ${question.correct.join(" ")}`,
+                {
+                  className: "toast-error"
+                }
+              );
               this.setState({ buttonColor: "danger" });
               // Put question to back of queue
             }
