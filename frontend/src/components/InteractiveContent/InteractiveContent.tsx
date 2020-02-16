@@ -142,8 +142,8 @@ class InteractiveContent extends PureComponent<Props, State> {
         <DragDropContext onDragEnd={this.onDragEnd}>
           {kind === Kind.BLOCKS ? (
             <>
-              <small className="text-muted">
-                Hint: Click or drag the answers onto the area below.
+              <small className="text-muted text-center">
+                Click, or hold to drag into the answer box
               </small>
               <Droppable
                 direction={Orientation.HORIZONTAL}
@@ -205,6 +205,8 @@ class InteractiveContent extends PureComponent<Props, State> {
                 )}
               </Droppable>
             </>
+          ) : kind === Kind.MULTIPLE_CHOICE ? (
+            <small className="text-muted text-center">Select the answer</small>
           ) : (
             code &&
             language && <CodeBlockWithBlank code={code} language={language} />
