@@ -80,6 +80,8 @@
     border-radius: 15px;
     border-width: 2px 2px 4px;
     padding: 14px 18px;
+    max-height: 53px;
+    white-space: nowrap;
 
     &:hover,
     &.active {
