@@ -234,7 +234,7 @@ class InteractiveContent extends PureComponent<Props, State> {
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className="answer-container"
+            className={`answer-container ${kind}`}
           >
             {possibleAnswers.map((answer, index) => {
               return (

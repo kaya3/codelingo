@@ -60,16 +60,15 @@
     flex-wrap: wrap;
     justify-content: center;
     margin: 1rem;
-    min-height: 69px;
+
+    &.multiple_choice {
+      flex-direction: column;
+    }
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (min-width: 600px) {
     .answer-container {
-      width: 100%;
-
-      .answer {
-        width: 100%;
-      }
+      min-height: 69px;
     }
   }
 
