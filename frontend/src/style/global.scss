@@ -52,3 +52,27 @@ code {
 .toast-success {
   background-color: $success;
 }
+
+.popover {
+  background-color: $warning;
+  border-color: transparent;
+  border-radius: 10px;
+  padding: 1rem;
+  color: white;
+  border-width: 0 0 4px;
+  border-color: darken($color: $warning, $amount: 15);
+
+  .arrow::after {
+    border-bottom-color: $warning !important;
+  }
+
+  .arrow::before {
+    border-bottom-color: transparent !important;
+  }
+}
+
+hr {
+  height: 1px;
+  width: 100%;
+  border-top: 1px solid $gray-300;
+}

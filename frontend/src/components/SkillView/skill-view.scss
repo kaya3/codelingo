@@ -4,22 +4,38 @@
 }
 
 .skill-container {
-  $size: 10rem;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  $size: 7rem;
   width: $size;
   height: $size;
   font-size: 2em;
+  margin: 1rem 0 0.5rem 0;
   line-height: $size;
   border-radius: 50%;
-  border: 4px solid $info;
-  text-align: center;
+  border: 7px solid $gray-300;
   cursor: pointer;
+  transition: border-color 0.2s ease-in-out;
 
-  svg {
-    margin-right: 0.5rem;
+  .skill-icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: $warning;
+    border-radius: 50%;
+    margin-top: 0.5rem;
+    width: 5rem;
+    height: 5rem;
+  }
+
+  &:hover {
+    border-color: $warning;
   }
 }
 
 .skill-wrapper {
   position: relative;
-  display: table;;
+  display: table;
 }

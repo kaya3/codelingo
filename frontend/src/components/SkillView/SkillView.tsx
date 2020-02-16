@@ -37,10 +37,16 @@ class SkillView extends PureComponent<Props, State> {
 
   render(): ReactNode {
     return (
-      <div className="skill-view d-flex flex-column align-items-center p-2">
-        <div>
-          <h1>Your Skills</h1>
-          <p>Click on a skill to learn more about this language!</p>
+      <div className="skill-view d-flex justify-content-center flex-column align-items-center p-2">
+        <div className="d-flex w-100 justify-content-center align-items-center p-2">
+          <h1 className="font-weight-bold">codelingo</h1>
+        </div>
+        <hr />
+        <div className="m-2 d-flex flex-column w-100 justify-content-center align-items-center">
+          <h4>Your Skills</h4>
+          <small className="text-muted">
+            Click on a skill to learn more about this language!
+          </small>
           {this.renderSkills()}
         </div>
       </div>
@@ -56,16 +62,18 @@ class SkillView extends PureComponent<Props, State> {
           key={`${outerIndex}.${innerIndex}`}
         >
           <div className="skill-container">
-            <FaListUl />
+            <div className="skill-icon-wrapper">
+              <FaListUl />
+            </div>
           </div>
-          <p>{skill.name}</p>
+          <p className="font-weight-bold">{skill.name}</p>
           <UncontrolledPopover
             placement="bottom"
             target={`skill-container-${outerIndex}-${innerIndex}`}
           >
             <PopoverBody>
               <Link to="/lesson">
-                <Button className="button">LEARN SKILL</Button>
+                <Button className="button button-info">LEARN SKILL</Button>
               </Link>
             </PopoverBody>
           </UncontrolledPopover>
