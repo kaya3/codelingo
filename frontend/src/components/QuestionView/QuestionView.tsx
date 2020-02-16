@@ -141,12 +141,29 @@ class QuestionView extends PureComponent<Props, State> {
                   className: "toast-error"
                 }
               );
-              this.setState({ buttonColor: "danger" });
+
+              console.log(questions);
+              this.setState({
+                buttonColor: "danger"
+              });
               // Put question to back of queue
             }
           } else {
+            const newQuestions = Array.from(questions);
+
+            newQuestions.splice(currentQuestionIndex, 1);
+            if (buttonColor === "danger") {
+              this.setState({
+                lesson: {
+                  ...this.state.lesson!,
+                  questions: [...newQuestions, question]
+                }
+              });
+            } else {
+              this.incrementQuestion();
+            }
+
             this.setState({ buttonColor: "info" });
-            this.incrementQuestion();
           }
         }}
       >
@@ -154,8 +171,6 @@ class QuestionView extends PureComponent<Props, State> {
           ? "CHECK"
           : buttonColor === "success" || buttonColor === "danger"
           ? "CONTINUE"
-          : lesson!.questions.length !== currentQuestionIndex + 1
-          ? "FINISH"
           : ""}
       </Button>
     );
