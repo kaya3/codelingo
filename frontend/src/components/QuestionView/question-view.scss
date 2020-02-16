@@ -19,10 +19,26 @@
     cursor: pointer;
   }
 
+  .blank {
+    padding: 1.2rem 0.5rem;
+    border: 2px solid white;
+    background-color: white;
+    border-radius: 4px;
+    min-width: 70px;
+    margin-bottom: -1rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    display: inline-block;
+  }
+
   .code-block {
     width: 100%;
     font-family: monospace;
     margin: 1rem 0;
+
+    span > code {
+      line-height: 4 !important;
+    }
   }
 
   @media only screen and (max-width: 600px) {

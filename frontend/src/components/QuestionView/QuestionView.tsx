@@ -80,7 +80,7 @@ class QuestionView extends PureComponent<Props, State> {
     let code;
 
     if (question?.kind === "blanks") {
-      code = question.template;
+      code = question.template.join("###BLANK###");
     }
 
     return (
@@ -110,9 +110,9 @@ class QuestionView extends PureComponent<Props, State> {
         <Progress
           color="info"
           className="ml-2 w-100"
-          value={((currentQuestionIndex + 1) / lesson!.questions.length) * 100}
+          value={(currentQuestionIndex / lesson!.questions.length) * 100}
         >
-          {currentQuestionIndex + 1} / {lesson!.questions.length}
+          {currentQuestionIndex} / {lesson!.questions.length}
         </Progress>
       </div>
     );
@@ -141,8 +141,6 @@ class QuestionView extends PureComponent<Props, State> {
                   className: "toast-error"
                 }
               );
-
-              console.log(questions);
               this.setState({
                 buttonColor: "danger"
               });

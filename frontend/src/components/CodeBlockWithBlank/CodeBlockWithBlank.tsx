@@ -3,7 +3,7 @@ import React, { PureComponent, ReactNode } from "react";
 import { CodeBlock, dracula } from "react-code-blocks";
 
 interface Props {
-  code: string[];
+  code: string;
   language: string;
 }
 interface State {}
@@ -15,7 +15,7 @@ class CodeBlockWithBlank extends PureComponent<Props, State> {
     const { code, language } = this.props;
 
     return (
-      <div className="code-block">
+      <div className="code-block" id="code-block">
         <CodeBlock
           text={code}
           language={language}
