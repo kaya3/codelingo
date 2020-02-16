@@ -25,12 +25,9 @@ class SkillView extends PureComponent<Props, State> {
   };
 
   componentDidMount() {
-    authClient.getWhoAmI().then(whoAmI => {
-      console.log(whoAmI);
-    });
+    authClient.getWhoAmI().then(whoAmI => {});
 
     skillClient.getSkills().then(skills => {
-      console.log(skills);
       this.setState({
         skills: skills.map(s1 => {
           return s1.map(s => ({ ...s, colour: randomcolor() }));
