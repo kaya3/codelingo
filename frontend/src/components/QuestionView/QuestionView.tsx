@@ -201,7 +201,21 @@ class QuestionView extends PureComponent<Props & RouteProps, State> {
             Congratz! Skill finished
           </span>
           <Link to="/skills">
-            <Button className="button button-info">COMPLETE MORE SKILLS</Button>
+            <Button
+              className="button button-info"
+              onClick={() => {
+                //@ts-ignore
+                const id = this.props.match.params.id;
+
+                if (!id) {
+                  return;
+                }
+
+                skillClient.completeLesson(id);
+              }}
+            >
+              COMPLETE MORE SKILLS
+            </Button>
           </Link>
         </div>
       </div>

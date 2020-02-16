@@ -35,7 +35,7 @@ class SkillView extends PureComponent<Props, State> {
     return (
       <div className="skill-view d-flex justify-content-center flex-column align-items-center p-2">
         <div className="d-flex w-100 justify-content-center align-items-center p-2">
-          <h1 className="font-weight-bold">codelingo</h1>
+          <h2 className="logo font-weight-bold">codelingo</h2>
         </div>
         <hr />
         <div className="m-2 d-flex flex-column w-100 justify-content-center align-items-center">
