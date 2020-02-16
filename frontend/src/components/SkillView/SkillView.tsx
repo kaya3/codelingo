@@ -107,7 +107,10 @@ class SkillView extends PureComponent<Props, State> {
             >
               <PopoverBody>
                 <p>
-                  <span className="font-weight-bold">Lesson</span>{" "}
+                  <span className="font-weight-bold">Level</span>{" "}
+                  {skill.level}
+                  <br />
+                  <span className="font-weight-bold">Lessons Completed</span>{" "}
                   {Math.round(skill.total_lessons * skill.level_progress)} /{" "}
                   {skill.total_lessons}
                 </p>
