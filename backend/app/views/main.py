@@ -37,7 +37,7 @@ def get_skills():
 		}
 	
 	skills = Skill.query.filter(Skill.language_id == current_user.current_language_id).order_by(Skill.order)
-	return jsonify([
+	return jsonify(skills=[
 		[skill_stats(skill) for skill in v]
 		for _, v in itertools.groupby(skills, key=lambda s: s.order)
 	])
