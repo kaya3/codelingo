@@ -54,36 +54,34 @@ class SkillView extends PureComponent<Props, State> {
   }
 
   private renderSkills() {
-    return this.state.skills.map((skillRow, outerIndex) =>
-      <div key={outerIndex}>
-        {
-          skillRow.map((skill, innerIndex) => (
-            <div
-              id={`skill-container-${outerIndex}-${innerIndex}`}
-              className="skill-wrapper text-center"
-              key={innerIndex}
-              >
-              <div className="skill-container">
-                <div className="skill-icon-wrapper">
-                  <FaListUl />
-                </div>
+    return this.state.skills.map((skillRow, outerIndex) => (
+      <div className="d-flex" key={outerIndex}>
+        {skillRow.map((skill, innerIndex) => (
+          <div
+            id={`skill-container-${outerIndex}-${innerIndex}`}
+            className="skill-wrapper text-center m-2"
+            key={innerIndex}
+          >
+            <div className="skill-container">
+              <div className="skill-icon-wrapper">
+                <FaListUl />
               </div>
-              <p className="font-weight-bold">{skill.name}</p>
-              <UncontrolledPopover
-                placement="bottom"
-                target={`skill-container-${outerIndex}-${innerIndex}`}
-                >
-                <PopoverBody>
-                  <Link to="/lesson">
-                    <Button className="button button-info">LEARN SKILL</Button>
-                  </Link>
-                </PopoverBody>
-              </UncontrolledPopover>
             </div>
-          ))
-        }
+            <p className="font-weight-bold">{skill.name}</p>
+            <UncontrolledPopover
+              placement="bottom"
+              target={`skill-container-${outerIndex}-${innerIndex}`}
+            >
+              <PopoverBody>
+                <Link to="/lesson">
+                  <Button className="button button-info">LEARN SKILL</Button>
+                </Link>
+              </PopoverBody>
+            </UncontrolledPopover>
+          </div>
+        ))}
       </div>
-    );
+    ));
   }
 }
 
