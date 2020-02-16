@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API_URL = process.env.NODE_ENV !== 'production'
-  ? 'https://codelingo.werp.site/api'
+  ? 'https://codelingo.tech/api'
   : '/api';
 
 const api = axios.create({
