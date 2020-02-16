@@ -182,18 +182,10 @@ class QuestionView extends PureComponent<Props & RouteProps, State> {
     );
   }
 
-  private onNextClick() {
-    this.setState({
-      currentQuestionIndex: this.state.currentQuestionIndex + 1
-    });
-
-    skillClient.completeLesson("1").then(response => {
-      console.log(response);
-    });
-  }
-
   // Results screen the user lands on after finishing or failing the lesson
   private renderFinishScreen() {
+    const { lesson } = this.state;
+
     return (
       <div className="complete-screen d-flex justify-content-center align-items-center">
         <div className="d-flex flex-column justify-content-center">
@@ -204,14 +196,7 @@ class QuestionView extends PureComponent<Props & RouteProps, State> {
             <Button
               className="button button-info"
               onClick={() => {
-                //@ts-ignore
-                const id = this.props.match.params.id;
-
-                if (!id) {
-                  return;
-                }
-
-                skillClient.completeLesson(id);
+                skillClient.completeLesson(lesson!.lesson_id);
               }}
             >
               COMPLETE MORE SKILLS
