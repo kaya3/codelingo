@@ -119,7 +119,7 @@ class InteractiveContent extends PureComponent<Props, State> {
           {kind === Kind.BLOCKS ? (
             <>
               <small className="text-muted">
-                Hint: Drag the answers onto the area below.
+                Hint: Click or drag the answers onto the area below.
               </small>
               <Droppable
                 direction={Orientation.HORIZONTAL}
@@ -167,7 +167,7 @@ class InteractiveContent extends PureComponent<Props, State> {
   }
 
   private renderAnswers() {
-    const { kind } = this.props;
+    const { kind, updateAnswer } = this.props;
     const { possibleAnswers } = this.state;
 
     if (!possibleAnswers) {
@@ -200,6 +200,30 @@ class InteractiveContent extends PureComponent<Props, State> {
                     {...provided.dragHandleProps}
                     key={answer}
                     className="answer"
+                    onClick={() => {
+                      if (kind === Kind.BLOCKS) {
+                        const userAnswer = Array.from(this.state.userAnswer);
+                        const possibleAnswers = Array.from(
+                          this.state.possibleAnswers!
+                        );
+
+                        userAnswer.push(answer);
+                        const index = possibleAnswers.findIndex(
+                          (possibleAnswer: string) => possibleAnswer === answer
+                        );
+                        possibleAnswers.splice(index, 1);
+
+                        this.setState(
+                          {
+                            //@ts-ignore
+                            userAnswer,
+                            //@ts-ignore
+                            possibleAnswers
+                          },
+                          () => updateAnswer(this.state.userAnswer)
+                        );
+                      }
+                    }}
                   >
                     <span>{answer}</span>
                   </div>
