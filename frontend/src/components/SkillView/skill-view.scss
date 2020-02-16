@@ -23,7 +23,7 @@
     justify-content: center;
     align-items: center;
     color: white;
-    background-color: $warning;
+    background-color: var(--colour);
     border-radius: 50%;
     margin-top: 0.5rem;
     width: 5rem;
@@ -31,11 +31,12 @@
   }
 
   &:hover {
-    border-color: $warning;
+    border-color: var(--colour);
   }
 }
 
 .skill-wrapper {
+  --colour: #{$warning};
   position: relative;
   display: table;
 

@@ -8,8 +8,9 @@ import {
 import { skillClient } from "../../network/skillClient";
 import { Skill } from "../../model/Skill";
 import { authClient } from "../../network/authClient";
-import { FaListUl } from "react-icons/fa";
+import { FaListUl, FaThumbsUp, FaEquals, FaFont,  } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import randomcolor from 'randomcolor';
 
 interface Props {}
 
@@ -61,10 +62,16 @@ class SkillView extends PureComponent<Props, State> {
             id={`skill-container-${outerIndex}-${innerIndex}`}
             className="skill-wrapper text-center m-2"
             key={innerIndex}
+            //@ts-ignore
+            style={ { ['--colour']: randomcolor() } }
           >
             <div className="skill-container">
               <div className="skill-icon-wrapper">
-                <FaListUl />
+              {  skill.name === 'Basics'
+                  ? <FaThumbsUp /> :
+                  skill.name === 'Expressions' || skill.name === 'Assignment' ? <FaEquals /> :
+                  skill.name === 'Types' || skill.name === 'Variables' || skill.name === 'Strings' ? <FaFont /> :
+                  <FaListUl /> }
               </div>
             </div>
             <p className="font-weight-bold">{skill.name}</p>
