@@ -1,10 +1,5 @@
 import React, { PureComponent, ReactNode } from "react";
-import {
-  Button,
-  UncontrolledPopover,
-  PopoverHeader,
-  PopoverBody
-} from "reactstrap";
+import { Button, Popover, PopoverBody } from "reactstrap";
 import { skillClient } from "../../network/skillClient";
 import { Skill } from "../../model/Skill";
 import { authClient } from "../../network/authClient";
@@ -15,7 +10,13 @@ import randomcolor from 'randomcolor';
 interface Props {}
 
 interface State {
-  skills: Skill[][];
+  skills: RenderedSkill[][];
+  popoverOpen?: string;
+  popoverColour?: string,
+}
+
+interface RenderedSkill extends Skill {
+  colour: string,
 }
 
 class SkillView extends PureComponent<Props, State> {
@@ -31,16 +32,20 @@ class SkillView extends PureComponent<Props, State> {
     skillClient.getSkills().then(skills => {
       console.log(skills);
       this.setState({
-        skills
+        skills: skills.map(s1 => {
+          return s1.map(s => ({ ...s, colour: randomcolor() }))
+        }),
       });
     });
   }
 
   render(): ReactNode {
     return (
-      <div className="skill-view d-flex justify-content-center flex-column align-items-center p-2">
+      <div className="skill-view d-flex justify-content-center flex-column align-items-center p-2"
+      //@ts-ignore
+      style={ { ['--colour']: this.state.popoverColour } }>>
         <div className="d-flex w-100 justify-content-center align-items-center p-2">
-          <h1 className="font-weight-bold">codelingo</h1>
+          <h2 className="logo font-weight-bold">codelingo</h2>
         </div>
         <hr />
         <div className="m-2 d-flex flex-column w-100 justify-content-center align-items-center">
@@ -56,14 +61,26 @@ class SkillView extends PureComponent<Props, State> {
 
   private renderSkills() {
     return this.state.skills.map((skillRow, outerIndex) => (
-      <div className="d-flex" key={outerIndex}>
+      <div className="d-flex flex-wrap justify-content-center" key={outerIndex}>
         {skillRow.map((skill, innerIndex) => (
           <div
             id={`skill-container-${outerIndex}-${innerIndex}`}
             className="skill-wrapper text-center m-2"
             key={innerIndex}
             //@ts-ignore
-            style={ { ['--colour']: randomcolor() } }
+            style={ { ['--colour']: skill.colour } }
+            onClick={() => {
+                this.setState({
+                  popoverOpen:
+                    this.state.popoverOpen ===
+                    `skill-container-${outerIndex}-${innerIndex}`
+                      ? undefined
+                      : `skill-container-${outerIndex}-${innerIndex}`
+                })
+
+                this.setState({ popoverColour: skill.colour });
+              }
+            }
           >
             <div className="skill-container">
               <div className="skill-icon-wrapper">
@@ -75,16 +92,20 @@ class SkillView extends PureComponent<Props, State> {
               </div>
             </div>
             <p className="font-weight-bold">{skill.name}</p>
-            <UncontrolledPopover
+            <Popover
               placement="bottom"
               target={`skill-container-${outerIndex}-${innerIndex}`}
+              isOpen={
+                `skill-container-${outerIndex}-${innerIndex}` ===
+                this.state.popoverOpen
+              }
             >
               <PopoverBody>
-                <Link to="/lesson">
+                <Link to={`/lesson/${skill.id}`}>
                   <Button className="button button-info">LEARN SKILL</Button>
                 </Link>
               </PopoverBody>
-            </UncontrolledPopover>
+            </Popover>
           </div>
         ))}
       </div>

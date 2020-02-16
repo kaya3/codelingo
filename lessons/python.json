@@ -288,12 +288,71 @@
 		]}
 	]},
 	{"skill": "Strings", "order": 3, "lessons": [
-		
+		{"level": 1, "questions": [
+			{
+				"kind": "blocks",
+				"text": "<p>Concatenate strings to make <code>'Hello, world!'</code>.</p>",
+				"correct": ["'Hello, '", "+", "'world!'"],
+				"incorrect": ["print", "|", "*"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Get the length of the string <code>'Splendid'</code>.</p>",
+				"correct": ["len('Splendid')"],
+				"incorrect": ["length('Splendid')", "'Splendid'.length()"]
+			},
+			{
+				"kind": "blocks",
+				"text": "<p>Get the length of the string <code>'foobar'</code>.</p>",
+				"correct": ["len", "(", "'foobar'", ")"],
+				"incorrect": ["length", "str"]
+			}
+		]}
 	]},
 	{"skill": "Assignment", "order": 4, "lessons": [
-		
+		{"level": 2, "questions": [
+			{
+				"kind": "blocks",
+				"text": "<p>Write code to find the sum of the numbers in <code>nums</code>.</p>",
+				"correct": ["sum", "(", "nums", ")"],
+				"incorrect": ["total", "[", "]"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>What is the result of <code>sum([2, 5])</code>?</p>",
+				"correct": ["7"],
+				"incorrect": ["2", "5"]
+			},
+			{
+				"kind": "blanks",
+				"text": "<p>Complete the code to print each number from <code>nums</code>.</p>",
+				"template": ["for ", " in nums:\n\t", "(x)"],
+				"correct": ["x", "print"],
+				"incorrect": ["sum", "output", "nums"]
+			}
+		]}
 	]},
 	{"skill": "Lists", "order": 4, "lessons": [
-		
+		{"level": 2, "questions": [
+			{
+				"kind": "blocks",
+				"text": "<p>Write code to find the sum of the numbers in <code>nums</code>.</p>",
+				"correct": ["sum", "(", "nums", ")"],
+				"incorrect": ["total", "[", "]"]
+			},
+			{
+				"kind": "multiple_choice",
+				"text": "<p>What is the result of <code>sum([2, 5])</code>?</p>",
+				"correct": ["7"],
+				"incorrect": ["2", "5"]
+			},
+			{
+				"kind": "blanks",
+				"text": "<p>Complete the code to print each number from <code>nums</code>.</p>",
+				"template": ["for ", " in nums:\n\t", "(x)"],
+				"correct": ["x", "print"],
+				"incorrect": ["sum", "output", "nums"]
+			}
+		]}
 	]}
 ]

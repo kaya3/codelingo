@@ -12,7 +12,7 @@ class LoginView extends PureComponent<Props, State> {
   render(): ReactNode {
     return (
       <div className="login-view d-flex flex-column w-100 justify-content-center align-items-center p-2">
-        <h1 className="font-weight-bold">codelingo</h1>
+        <h1 className="logo font-weight-bold">codelingo</h1>
         <hr />
         <div className="m-2 d-flex flex-column w-100 justify-content-center align-items-center">
           <h4>Log In</h4>

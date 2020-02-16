@@ -40,7 +40,7 @@
   position: relative;
   display: table;
 
-  & > * {
-    pointer-events: none;
+  .popover {
+    background-color: var(--colour);
   }
 }
