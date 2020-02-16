@@ -2,6 +2,7 @@ import React, { PureComponent, ReactNode } from "react";
 import { Button, Progress } from "reactstrap";
 import { FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { RouteProps } from "react-router";
 
 import { skillClient } from "../../network/skillClient";
 import { Lesson } from "../../model/Lesson";
@@ -21,7 +22,7 @@ interface State {
   buttonColor: string;
 }
 
-class QuestionView extends PureComponent<Props, State> {
+class QuestionView extends PureComponent<Props & RouteProps, State> {
   state: State = {
     currentQuestionIndex: 0,
     userAnswer: [],
@@ -34,7 +35,14 @@ class QuestionView extends PureComponent<Props, State> {
     //   lesson: data as any
     // });
 
-    skillClient.getNextLesson("1").then(response => {
+    //@ts-ignore
+    const id = this.props.match.params.id;
+
+    if (!id) {
+      return;
+    }
+
+    skillClient.getNextLesson(id).then(response => {
       this.setState({
         lesson: response
       });

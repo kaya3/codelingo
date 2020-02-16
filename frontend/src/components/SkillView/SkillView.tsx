@@ -59,7 +59,11 @@ class SkillView extends PureComponent<Props, State> {
             key={innerIndex}
             onClick={() =>
               this.setState({
-                popoverOpen: `skill-container-${outerIndex}-${innerIndex}`
+                popoverOpen:
+                  this.state.popoverOpen ===
+                  `skill-container-${outerIndex}-${innerIndex}`
+                    ? undefined
+                    : `skill-container-${outerIndex}-${innerIndex}`
               })
             }
           >
@@ -78,7 +82,7 @@ class SkillView extends PureComponent<Props, State> {
               }
             >
               <PopoverBody>
-                <Link to="/lesson">
+                <Link to={`/lesson/${skill.id}`}>
                   <Button className="button button-info">LEARN SKILL</Button>
                 </Link>
               </PopoverBody>
