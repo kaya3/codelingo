@@ -124,7 +124,7 @@
 				"text": "<p>Write an expression to check whether the numbers 3 and 6 are equal.",
 				"correct": ["3", "==", "6"],
 				"incorrect": ["="]
-			},
+			}
 		]},
 		{"level": 2, "questions": [
 			{
