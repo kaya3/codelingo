@@ -26,6 +26,7 @@ interface State {
   answerListOrientation: Orientation;
   userAnswer: string[];
   possibleAnswers?: string[];
+  verticalMenu?: boolean;
 }
 
 enum Orientation {
@@ -47,11 +48,20 @@ class InteractiveContent extends PureComponent<Props, State> {
 
   componentDidMount() {
     this.updatePossibleAnswers();
+    window.addEventListener("resize", this.resize.bind(this));
+    this.resize();
   }
 
   componentDidUpdate(prevProps: Props) {
     if (prevProps.question !== this.props.question) {
       this.updatePossibleAnswers();
+    }
+  }
+
+  resize() {
+    let currentHideNav = window.innerWidth <= 600;
+    if (currentHideNav !== this.state.verticalMenu) {
+      this.setState({ verticalMenu: currentHideNav });
     }
   }
 
@@ -126,7 +136,7 @@ class InteractiveContent extends PureComponent<Props, State> {
 
   render(): ReactNode {
     const { code, language, kind } = this.props;
-    const { userAnswer } = this.state;
+    const { userAnswer, verticalMenu } = this.state;
     return (
       <>
         <DragDropContext onDragEnd={this.onDragEnd}>
@@ -136,7 +146,9 @@ class InteractiveContent extends PureComponent<Props, State> {
                 Hint: Click or drag the answers onto the area below.
               </small>
               <Droppable
-                direction={Orientation.HORIZONTAL}
+                direction={
+                  verticalMenu ? Orientation.VERTICAL : Orientation.HORIZONTAL
+                }
                 droppableId="userAnswer"
               >
                 {(provided, snapshot) => (
@@ -182,7 +194,7 @@ class InteractiveContent extends PureComponent<Props, State> {
 
   private renderAnswers() {
     const { kind, updateAnswer } = this.props;
-    const { possibleAnswers } = this.state;
+    const { possibleAnswers, verticalMenu } = this.state;
 
     if (!possibleAnswers) {
       return;
@@ -190,7 +202,7 @@ class InteractiveContent extends PureComponent<Props, State> {
 
     return (
       <Droppable
-        direction={Orientation.HORIZONTAL}
+        direction={verticalMenu ? Orientation.VERTICAL : Orientation.HORIZONTAL}
         isDropDisabled={kind === Kind.MULTIPLE_CHOICE}
         droppableId="possibleAnswers"
       >
