@@ -135,7 +135,7 @@ class InteractiveContent extends PureComponent<Props, State> {
   }
 
   render(): ReactNode {
-    const { code, language, kind } = this.props;
+    const { code, language, kind, updateAnswer } = this.props;
     const { userAnswer, verticalMenu } = this.state;
     return (
       <>
@@ -146,9 +146,7 @@ class InteractiveContent extends PureComponent<Props, State> {
                 Hint: Click or drag the answers onto the area below.
               </small>
               <Droppable
-                direction={
-                  verticalMenu ? Orientation.VERTICAL : Orientation.HORIZONTAL
-                }
+                direction={Orientation.HORIZONTAL}
                 droppableId="userAnswer"
               >
                 {(provided, snapshot) => (
@@ -170,6 +168,32 @@ class InteractiveContent extends PureComponent<Props, State> {
                             {...provided.dragHandleProps}
                             key={answer}
                             className="answer"
+                            onClick={() => {
+                              const userAnswer = Array.from(
+                                this.state.userAnswer
+                              );
+                              const possibleAnswers = Array.from(
+                                this.state.possibleAnswers!
+                              );
+
+                              const index = userAnswer.findIndex(
+                                (possibleAnswer: string) =>
+                                  possibleAnswer === answer
+                              );
+
+                              userAnswer.splice(index, 1);
+                              possibleAnswers.push(answer);
+
+                              this.setState(
+                                {
+                                  //@ts-ignore
+                                  userAnswer,
+                                  //@ts-ignore
+                                  possibleAnswers
+                                },
+                                () => updateAnswer(this.state.userAnswer)
+                              );
+                            }}
                           >
                             <span>{answer}</span>
                           </div>

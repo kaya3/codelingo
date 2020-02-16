@@ -1,8 +1,10 @@
 .block-container {
   display: flex;
+  justify-content: center;
   padding: 0.6rem 1rem;
   background-color: $gray-200;
   margin: 2rem;
   border-radius: 4px;
+  min-width: 100%;
   min-height: 88.19px;
 }
