@@ -11,6 +11,14 @@ import itertools
 # TODO: don't do this later
 language_choice_required = login_required = lambda f: f
 
+@app.route('/get_languages')
+def get_languages():
+	languages = {
+		lang.name: lang.id
+		for lang in Language.query.all()
+	}
+	return jsonify(languages)
+
 @app.route('/choose_language/<int:language_id>', methods=['POST'])
 @login_required
 def choose_language(language_id):

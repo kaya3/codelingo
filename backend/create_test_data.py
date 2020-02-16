@@ -1,16 +1,25 @@
 #!/usr/bin/python3
 
+LANGUAGES = ['python']
+
 from app import app, db
 from app.models import *
+import json
 
 user1 = User('alice', 'alice@example.com', 'test')
 user2 = User('bob', 'bob@example.com', 'test')
 user3 = User('clive', 'clive@example.com', 'test')
 
-language = Language('python')
-user1.current_language = language
-user2.current_language = language
+languages = { name: Language(name) for name in LANGUAGES }
+user1.current_language = languages['python']
+user2.current_language = languages['python']
 
+db.session.add_all([
+	user1, user2, user3,
+	*languages.values(),
+])
+
+"""
 skill = Skill('Lists', language, 1)
 
 lesson1 = Lesson(skill, 1)
@@ -35,11 +44,20 @@ q3 = Question(lesson1, {
 	'correct': ['x', 'print'],
 	'incorrect': ['sum', 'output', 'nums'],
 })
+"""
 
-db.session.add_all([
-	user1, user2, user3,
-	language, skill,
-	lesson1, #lesson2,
-	q1, q2, q3
-])
+for lang in LANGUAGES:
+	with open('../lessons/' + lang + '.json') as f:
+		data = json.loads(f.read())
+	
+	for s in data:
+		skill = Skill(s['skill'], languages[lang], s['order'])
+		db.session.add(skill)
+		for l in s['lessons']:
+			lesson = Lesson(skill, l['level'])
+			db.session.add(lesson)
+			for q in l['questions']:
+				question = Question(lesson, q)
+				db.session.add(question)
+
 db.session.commit()
