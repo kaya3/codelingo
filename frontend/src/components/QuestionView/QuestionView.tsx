@@ -201,7 +201,7 @@ class QuestionView extends PureComponent<Props & RouteProps, State> {
             className="text-muted m-2 text-center"
             style={{ paddingTop: "4.5rem" }}
           >
-            Congratz! Skill finished.
+            Congratz! Lesson finished.
           </span>
           <Link to="/skills">
             <Button className="button button-info">COMPLETE MORE SKILLS</Button>
