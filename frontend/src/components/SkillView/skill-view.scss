@@ -38,8 +38,4 @@
 .skill-wrapper {
   position: relative;
   display: table;
-
-  & > * {
-    pointer-events: none;
-  }
 }
