@@ -3,7 +3,7 @@ from flask import jsonify
 from flask_login import current_user, login_required
 
 from app.decorators import language_choice_required
-from app.models import User, Skill, SkillLevel, Language
+from app.models import User, Skill, SkillLevel, Language, LessonCompleted
 
 import random
 import itertools
@@ -39,6 +39,7 @@ def get_skills():
 	def skill_stats(skill):
 		skill_level = current_user.get_skill_level(skill)
 		return {
+			'id': skill.id,
 			'name': skill.name,
 			'level': skill_level.level,
 			'level_progress': skill_level.progress,
@@ -58,7 +59,10 @@ def get_lesson(skill_id):
 	if not skill:
 		return 'Skill not found.', 404
 	else:
-		lesson = random.choice(list(skill.lessons))
+		lessons = list(skill.lessons)
+		completed_ids = set(c.lesson_id for c in current_user.lessons_completed.join(skill.lessons).filter(Skill.id == skill.id))
+		incomplete = [lesson for lesson in lessons if lesson.id not in completed_ids]
+		lesson = min(incomplete, key=lambda l: l.level) if incomplete else random.choice(lessons)
 		return jsonify({
 			'name': skill.name,
 			'language': skill.language.name,
