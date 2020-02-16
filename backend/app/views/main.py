@@ -39,6 +39,7 @@ def get_skills():
 	def skill_stats(skill):
 		skill_level = current_user.get_skill_level(skill)
 		return {
+			'id': skill.id,
 			'name': skill.name,
 			'level': skill_level.level,
 			'level_progress': skill_level.progress,
