@@ -80,8 +80,9 @@
 
     &:hover,
     &.active {
-      background: $gray-200;
-      border-color: $gray-300;
+      background: lighten($info, 40);
+      border-color: lighten($info, 20);
+      font-weight: bold;
     }
   }
 }
