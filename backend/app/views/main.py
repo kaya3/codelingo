@@ -3,7 +3,7 @@ from flask import jsonify
 from flask_login import current_user, login_required
 
 from app.decorators import language_choice_required
-from app.models import User, Skill, SkillLevel, Language, LessonCompleted
+from app.models import User, Skill, SkillLevel, Language, Lesson, LessonCompleted
 
 import random
 import itertools
@@ -60,7 +60,16 @@ def get_lesson(skill_id):
 		return 'Skill not found.', 404
 	else:
 		lessons = list(skill.lessons)
-		completed_ids = set(c.lesson_id for c in current_user.lessons_completed.join(skill.lessons).filter(Skill.id == skill.id))
+		completed_ids = {
+			c.lesson_id
+			for c in LessonCompleted.query.join(
+				Lesson, LessonCompleted.lesson_id == Lesson.id
+			).filter(
+				LessonCompleted.user_id == current_user.id
+			).filter(
+				Lesson.skill_id == skill.id
+			)
+		}
 		incomplete = [lesson for lesson in lessons if lesson.id not in completed_ids]
 		lesson = min(incomplete, key=lambda l: l.level) if incomplete else random.choice(lessons)
 		return jsonify({
