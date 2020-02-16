@@ -13,12 +13,15 @@ language_choice_required = login_required = lambda f: f
 
 def skill_stats(user, skill):
 	skill_level = user.get_skill_level(skill)
+	total_lessons = sum(1 for _ in skill.lessons.filter_by(level=skill_level.level + 1))
+	if total_lessons == 0:
+		total_lessons = sum(1 for _ in skill.lessons)
 	return {
 		'id': skill.id,
 		'name': skill.name,
 		'level': skill_level.level,
 		'level_progress': skill_level.progress,
-		'total_lessons': sum(1 for _ in skill.lessons.filter_by(level=skill_level.level + 1)),
+		'total_lessons': total_lessons,
 	}
 
 @app.route('/get_languages')
