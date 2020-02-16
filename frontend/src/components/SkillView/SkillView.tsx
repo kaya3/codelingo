@@ -1,10 +1,5 @@
 import React, { PureComponent, ReactNode } from "react";
-import {
-  Button,
-  UncontrolledPopover,
-  PopoverHeader,
-  PopoverBody
-} from "reactstrap";
+import { Button, Popover, PopoverBody } from "reactstrap";
 import { skillClient } from "../../network/skillClient";
 import { Skill } from "../../model/Skill";
 import { authClient } from "../../network/authClient";
@@ -15,6 +10,7 @@ interface Props {}
 
 interface State {
   skills: Skill[][];
+  popoverOpen?: string;
 }
 
 class SkillView extends PureComponent<Props, State> {
@@ -61,6 +57,11 @@ class SkillView extends PureComponent<Props, State> {
             id={`skill-container-${outerIndex}-${innerIndex}`}
             className="skill-wrapper text-center m-2"
             key={innerIndex}
+            onClick={() =>
+              this.setState({
+                popoverOpen: `skill-container-${outerIndex}-${innerIndex}`
+              })
+            }
           >
             <div className="skill-container">
               <div className="skill-icon-wrapper">
@@ -68,16 +69,20 @@ class SkillView extends PureComponent<Props, State> {
               </div>
             </div>
             <p className="font-weight-bold">{skill.name}</p>
-            <UncontrolledPopover
+            <Popover
               placement="bottom"
               target={`skill-container-${outerIndex}-${innerIndex}`}
+              isOpen={
+                `skill-container-${outerIndex}-${innerIndex}` ===
+                this.state.popoverOpen
+              }
             >
               <PopoverBody>
                 <Link to="/lesson">
                   <Button className="button button-info">LEARN SKILL</Button>
                 </Link>
               </PopoverBody>
-            </UncontrolledPopover>
+            </Popover>
           </div>
         ))}
       </div>
