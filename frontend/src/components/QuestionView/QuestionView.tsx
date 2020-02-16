@@ -38,8 +38,6 @@ class QuestionView extends PureComponent<Props, State> {
       this.setState({
         lesson: response
       });
-
-      console.log(response);
     });
   }
 
@@ -182,9 +180,7 @@ class QuestionView extends PureComponent<Props, State> {
             Congratz! Skill finished
           </span>
           <Link to="/skills">
-            <Button className="button" color="info">
-              COMPLETE MORE SKILLS
-            </Button>
+            <Button className="button button-info">COMPLETE MORE SKILLS</Button>
           </Link>
         </div>
       </div>

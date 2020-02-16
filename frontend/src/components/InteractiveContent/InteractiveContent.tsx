@@ -4,6 +4,7 @@ import { QuestionHandler } from "../../util/QuestionHandler";
 import { Question, Kind } from "../../model/Question";
 import { reorder } from "../../util/reorder";
 import { move } from "../../util/move";
+import classNames from "classnames";
 
 import CodeBlockWithBlank from "../CodeBlockWithBlank/CodeBlockWithBlank";
 import {
@@ -59,7 +60,7 @@ class InteractiveContent extends PureComponent<Props, State> {
       this.props.question.incorrect
     );
     possibleAnswers = QuestionHandler.shuffleQuestions(possibleAnswers);
-    this.setState({ possibleAnswers });
+    this.setState({ possibleAnswers, userAnswer: [] });
   }
 
   onDragEnd(result: DropResult) {
@@ -199,30 +200,37 @@ class InteractiveContent extends PureComponent<Props, State> {
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     key={answer}
-                    className="answer"
+                    className={classNames("answer", {
+                      active: this.state.userAnswer.includes(answer)
+                    })}
                     onClick={() => {
-                      if (kind === Kind.BLOCKS) {
-                        const userAnswer = Array.from(this.state.userAnswer);
-                        const possibleAnswers = Array.from(
-                          this.state.possibleAnswers!
-                        );
+                      const userAnswer = Array.from(this.state.userAnswer);
+                      const possibleAnswers = Array.from(
+                        this.state.possibleAnswers!
+                      );
 
-                        userAnswer.push(answer);
+                      userAnswer.push(answer);
+
+                      if (kind === Kind.BLOCKS) {
                         const index = possibleAnswers.findIndex(
                           (possibleAnswer: string) => possibleAnswer === answer
                         );
                         possibleAnswers.splice(index, 1);
-
-                        this.setState(
-                          {
-                            //@ts-ignore
-                            userAnswer,
-                            //@ts-ignore
-                            possibleAnswers
-                          },
-                          () => updateAnswer(this.state.userAnswer)
-                        );
+                      } else if (kind === Kind.MULTIPLE_CHOICE) {
+                        if (userAnswer.length > 1) {
+                          userAnswer.splice(0, 1);
+                        }
                       }
+
+                      this.setState(
+                        {
+                          //@ts-ignore
+                          userAnswer,
+                          //@ts-ignore
+                          possibleAnswers
+                        },
+                        () => updateAnswer(this.state.userAnswer)
+                      );
                     }}
                   >
                     <span>{answer}</span>

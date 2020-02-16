@@ -62,7 +62,8 @@
     border-width: 2px 2px 4px;
     padding: 14px 18px;
 
-    &:hover {
+    &:hover,
+    &.active {
       background: $gray-200;
       border-color: $gray-300;
     }
