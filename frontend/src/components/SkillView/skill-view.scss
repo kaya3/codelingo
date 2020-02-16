@@ -5,6 +5,7 @@
 
 .skill-container {
   display: flex;
+  position: relative;
   justify-content: center;
   align-self: center;
   $size: 7rem;
@@ -42,5 +43,21 @@
 
   .popover {
     background-color: var(--colour);
+  }
+
+  .level-container {
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    padding: 0.5rem;
+    bottom: 0rem;
+    right: 0rem;
+    line-height: 1em;
+    background-color: $info;
+    border-radius: 50%;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
   }
 }

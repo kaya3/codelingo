@@ -4,4 +4,5 @@ export type Skill = {
   level_progress: number;
   total_lessons: number;
   name: string;
+  max_level: string,
 };
