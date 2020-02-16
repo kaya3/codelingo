@@ -11,9 +11,8 @@ import itertools
 # TODO: don't do this later
 language_choice_required = login_required = lambda f: f
 
-def skill_stats(skill):
-	current_user = User.query.get(1) # TODO
-	skill_level = current_user.get_skill_level(skill)
+def skill_stats(user, skill):
+	skill_level = user.get_skill_level(skill)
 	return {
 		'id': skill.id,
 		'name': skill.name,
@@ -49,7 +48,7 @@ def get_skills():
 	current_user = User.query.get(1) # TODO
 	skills = Skill.query.filter(Skill.language_id == current_user.current_language_id).order_by(Skill.order)
 	return jsonify(skills=[
-		[skill_stats(skill) for skill in v]
+		[skill_stats(current_user, skill) for skill in v]
 		for _, v in itertools.groupby(skills, key=lambda s: s.order)
 	])
 
@@ -94,7 +93,7 @@ def complete_lesson(lesson_id):
 		db.session.add(completion)
 		
 		if skill_level.level < lesson.level:
-			ids_completed = set(l.id for l in current_user.lessons_completed if l.skill == lesson.skill)
+			ids_completed = set(l.id for l in current_user.lessons_completed if l.lesson.skill_id == lesson.skill)
 			if lesson.id not in ids_completed:
 				lessons_in_skill = lesson.skill.lessons.filter(Lesson.level == lesson.level).count()
 				skill_level.progress = (len(ids_completed) + 1) / lessons_in_skill
@@ -106,4 +105,4 @@ def complete_lesson(lesson_id):
 		completion.number_of_times += 1
 		db.session.commit()
 		
-		return skill_stats(lesson.skill)
+		return jsonify(skill_stats(current_user, lesson.skill))
