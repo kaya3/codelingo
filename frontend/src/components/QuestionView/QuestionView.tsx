@@ -111,7 +111,7 @@ class QuestionView extends PureComponent<Props & RouteProps, State> {
   private renderHeader() {
     const { currentQuestionIndex, lesson } = this.state;
     return (
-      <div className="d-flex w-100 m-2 align-items-center">
+      <div className="d-flex w-100 m-2 mb-5 align-items-center">
         <Link to="/skills">
           <FaTimes className="close" />
         </Link>
@@ -142,6 +142,9 @@ class QuestionView extends PureComponent<Props & RouteProps, State> {
             if (this.isCorrect()) {
               toast.success("✔️ Correct", { className: "toast-success" });
               this.setState({ buttonColor: "success" });
+              if (questions.length === this.state.currentQuestionIndex + 1) {
+                skillClient.completeLesson(lesson!.lesson_id);
+              }
             } else {
               toast.error(
                 `✖️ Correct Solution: ${question.correct.join(" ")}`,
@@ -152,7 +155,6 @@ class QuestionView extends PureComponent<Props & RouteProps, State> {
               this.setState({
                 buttonColor: "danger"
               });
-              // Put question to back of queue
             }
           } else {
             const newQuestions = Array.from(questions);
@@ -193,14 +195,7 @@ class QuestionView extends PureComponent<Props & RouteProps, State> {
             Congratz! Skill finished
           </span>
           <Link to="/skills">
-            <Button
-              className="button button-info"
-              onClick={() => {
-                skillClient.completeLesson(lesson!.lesson_id);
-              }}
-            >
-              COMPLETE MORE SKILLS
-            </Button>
+            <Button className="button button-info">COMPLETE MORE SKILLS</Button>
           </Link>
         </div>
       </div>

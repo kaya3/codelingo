@@ -31,8 +31,6 @@ class SkillView extends PureComponent<Props, State> {
           return s1.map(s => ({ ...s, colour: randomcolor() }));
         })
       });
-
-      console.log(this.state.skills)
     });
   }
 
@@ -95,9 +93,7 @@ class SkillView extends PureComponent<Props, State> {
                   <FaListUl />
                 )}
               </div>
-              <div className="level-container">
-                { skill.level }
-              </div>
+              <div className="level-container">{skill.level}</div>
             </div>
             <p className="font-weight-bold">{skill.name}</p>
             <Popover
@@ -110,10 +106,12 @@ class SkillView extends PureComponent<Props, State> {
             >
               <PopoverBody>
                 <p>
-                  <span className="font-weight-bold">Level</span>{" "}
-                  { skill.level } / { skill.max_level }
+                  <span className="font-weight-bold">Level</span> {skill.level}{" "}
+                  / {skill.max_level}
                   <br />
-                  <span className="font-weight-bold">Lessons Completed</span>{" "}
+                  <span className="font-weight-bold">
+                    Lessons Completed
+                  </span>{" "}
                   {Math.round(skill.total_lessons * skill.level_progress)} /{" "}
                   {skill.total_lessons}
                 </p>
