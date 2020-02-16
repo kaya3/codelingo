@@ -10,7 +10,7 @@ function App() {
     <BrowserRouter>
       <Route exact path="/lesson/:id" component={QuestionView} />
       <Route exact path="/skills" component={SkillView} />
-      <Route exact path="/login" component={LoginView} />
+      <Route exact path="/" component={LoginView} />
     </BrowserRouter>
   );
 }
