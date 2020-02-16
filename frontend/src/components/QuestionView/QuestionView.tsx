@@ -140,7 +140,11 @@ class QuestionView extends PureComponent<Props & RouteProps, State> {
         onClick={() => {
           if (buttonColor === "info") {
             if (this.isCorrect()) {
-              toast.success("✔️ Correct", { className: "toast-success" });
+              toast.success("✔️ Correct", {
+                className: "toast-success",
+                autoClose: 1500,
+                hideProgressBar: true
+              });
               this.setState({ buttonColor: "success" });
               if (questions.length === this.state.currentQuestionIndex + 1) {
                 skillClient.completeLesson(lesson!.lesson_id);
@@ -149,7 +153,9 @@ class QuestionView extends PureComponent<Props & RouteProps, State> {
               toast.error(
                 `✖️ Correct Solution: ${question.correct.join(" ")}`,
                 {
-                  className: "toast-error"
+                  className: "toast-error",
+                  autoClose: 3000,
+                  hideProgressBar: true
                 }
               );
               this.setState({
