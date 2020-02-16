@@ -228,7 +228,7 @@ class InteractiveContent extends PureComponent<Props, State> {
 
     return (
       <Droppable
-        direction={verticalMenu ? Orientation.VERTICAL : Orientation.HORIZONTAL}
+        direction={Orientation.HORIZONTAL}
         isDropDisabled={kind === Kind.MULTIPLE_CHOICE}
         droppableId="possibleAnswers"
       >
