@@ -1,0 +1,12 @@
+[
+	{"skill": "Basics", "order": 1, "lessons": [
+		{"level": 1, "questions": [
+			{
+				"kind": "multiple_choice",
+				"text": "<p>Choose the code to print <samp>Hello, world!</samp>.</p>",
+				"correct": ["System.out.println(\"Hello, world!\");"],
+				"incorrect": ["Hello(world);", "System.out.println(Hello, world!);"]
+			}
+		]}
+	]}
+]

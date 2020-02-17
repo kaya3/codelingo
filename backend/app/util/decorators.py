@@ -1,11 +1,12 @@
-__all__ = ['force_password_change', 'language_choice_required', 'run_in_thread', 'url_converter']
+__all__ = ['force_password_change', 'language_choice_required', 'run_in_thread', 'db_mapped']
 
 from functools import wraps
 from threading import Thread
 
-from flask import jsonify
 from flask_login import current_user
 from werkzeug.routing import BaseConverter, ValidationError
+
+from app import app, db
 
 def force_password_change(f):
     @wraps(f)
@@ -30,17 +31,23 @@ def run_in_thread(f):
         thr.start()
     return wrapper
 
-def url_converter(app):
-    def decorator(clazz):
-        class InstanceConverter(BaseConverter):
-            def to_python(self, url_string):
-                instance = clazz.query.get(int(url_string))
-                if instance:
-                    return instance
-                else:
-                    raise ValidationError
-            def from_python(self, instance):
-                return instance.id
-        app.url_map.converters[clazz.__name__] = InstanceConverter
-        return clazz
-    return decorator
+def db_mapped(clazz):
+    old_init = clazz.__init__
+    @wraps(old_init)
+    def __init__(self, *args, **kwargs):
+        old_init(self, *args, **kwargs)
+        db.session.add(self)
+    clazz.__init__ = __init__
+    
+    class InstanceConverter(BaseConverter):
+        def to_python(self, url_string):
+            instance = clazz.query.get(int(url_string))
+            if instance:
+                return instance
+            else:
+                raise ValidationError
+        def from_python(self, instance):
+            return instance.id
+    app.url_map.converters[clazz.__name__] = InstanceConverter
+    
+    return clazz

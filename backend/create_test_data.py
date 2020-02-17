@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-LANGUAGES = ['python']
+LANGUAGES = ['python', 'java']
 
 from app import app, db
 from app.models import *
@@ -12,12 +12,7 @@ user3 = User('clive', 'clive@example.com', 'test')
 
 languages = { name: Language(name) for name in LANGUAGES }
 user1.current_language = languages['python']
-user2.current_language = languages['python']
-
-db.session.add_all([
-    user1, user2, user3,
-    *languages.values(),
-])
+user2.current_language = languages['java']
 
 for lang in LANGUAGES:
     with open('../lessons/' + lang + '.json') as f:
@@ -25,12 +20,9 @@ for lang in LANGUAGES:
     
     for s in data:
         skill = Skill(s['skill'], languages[lang], s['order'])
-        db.session.add(skill)
         for l in s['lessons']:
             lesson = Lesson(skill, l['level'])
-            db.session.add(lesson)
             for q in l['questions']:
                 question = Question(lesson, q)
-                db.session.add(question)
 
 db.session.commit()

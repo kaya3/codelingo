@@ -1,9 +1,9 @@
 __all__ = ['LessonCompleted', 'SkillLevel']
 
 from app import app, db
-from app.util.decorators import url_converter
+from app.util.decorators import db_mapped
 
-@url_converter(app)
+@db_mapped
 class LessonCompleted(db.Model):
     __tablename__ = 'lessonscompleted'
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
@@ -17,7 +17,7 @@ class LessonCompleted(db.Model):
         self.lesson = lesson
         self.number_of_times = 0
 
-@url_converter(app)
+@db_mapped
 class SkillLevel(db.Model):
     __tablename__ = 'skilllevels'
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)

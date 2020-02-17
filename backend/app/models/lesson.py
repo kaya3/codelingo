@@ -3,9 +3,9 @@ __all__ = ['Language', 'Skill', 'Lesson', 'Question']
 import json
 
 from app import app, db
-from app.util.decorators import url_converter
+from app.util.decorators import db_mapped
 
-@url_converter(app)
+@db_mapped
 class Language(db.Model):
     __tablename__ = 'languages'
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
@@ -21,7 +21,7 @@ class Language(db.Model):
     def title(self):
         return self.name.title()
 
-@url_converter(app)
+@db_mapped
 class Skill(db.Model):
     __tablename__ = 'skills'
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
@@ -37,7 +37,7 @@ class Skill(db.Model):
         self.language = language
         self.order = order
 
-@url_converter(app)
+@db_mapped
 class Lesson(db.Model):
     __tablename__ = 'lessons'
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
@@ -51,7 +51,7 @@ class Lesson(db.Model):
         self.skill = skill
         self.level = level
 
-@url_converter(app)
+@db_mapped
 class Question(db.Model):
     __tablename__ = 'questions'
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)

@@ -1,12 +1,12 @@
-import random
 import itertools
+import random
 
 from flask import jsonify
 from flask_login import current_user, login_required
 
 from app import app, db
+from app.models import Language, Lesson, LessonCompleted, Skill, User
 from app.util.decorators import language_choice_required
-from app.models import User, Skill, Language, Lesson, LessonCompleted
 
 # TODO: don't do this later
 language_choice_required = login_required = lambda f: f
@@ -38,7 +38,6 @@ def get_languages():
 def choose_language(language):
     current_user = User.query.get(1) # TODO
     current_user.current_language = language
-    db.session.add(current_user)
     db.session.commit()
     return jsonify({})
 
@@ -89,7 +88,6 @@ def complete_lesson(lesson):
             for l in all_completed
             if l.lesson.skill_id == skill.id and l.lesson.level == lesson.level
         }
-        print(ids_completed)
         if lesson.id not in ids_completed:
             lessons_in_skill = skill.lessons.filter_by(level=lesson.level).count()
             skill_level.progress = (len(ids_completed) + 1) / lessons_in_skill
@@ -97,13 +95,9 @@ def complete_lesson(lesson):
                 skill_level.level = lesson.level
                 if skill.lessons.filter(Lesson.level > lesson.level).count() > 0:
                     skill_level.progress = 0
-            
-            db.session.add(skill_level)
     
     completion = current_user.get_lesson_completion(lesson)
     completion.number_of_times += 1
     
-    db.session.add(completion)
     db.session.commit()
-    
     return jsonify(skill_stats(current_user, lesson.skill))

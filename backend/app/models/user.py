@@ -1,17 +1,17 @@
 __all__ = ['User']
 
-from sqlalchemy import func
 from passlib.utils import generate_password
+from sqlalchemy import func
 
 from app import app, db
-from app.util.decorators import url_converter
-from app.models.progress import SkillLevel, LessonCompleted
+from app.models.progress import LessonCompleted, SkillLevel
+from app.util.decorators import db_mapped
 
 HASH_API = app.config['PASSWORD_HASH_API']
 HASH_ROUNDS = app.config['PASSWORD_HASH_ROUNDS']
 DEFAULT_PASSWORD_LENGTH = app.config['DEFAULT_PASSWORD_LENGTH']
 
-@url_converter(app)
+@db_mapped
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
@@ -60,15 +60,11 @@ class User(db.Model):
             self.password_hash = self.tmp_password_hash
             self.tmp_password_hash = None
             self.require_change_password = True
-            db.session.add(self)
-            db.session.commit()
             return True
         elif HASH_API.verify(password, self.password_hash):
             if self.tmp_password_hash:
                 self.tmp_password_hash = None
                 self.require_change_password = False
-                db.session.add(self)
-                db.session.commit()
             return True
         else:
             return False
@@ -85,8 +81,6 @@ class User(db.Model):
     def generate_tmp_password(self):
         new_password = generate_password(DEFAULT_PASSWORD_LENGTH)
         self.tmp_password_hash = HASH_API.encrypt(new_password, rounds=HASH_ROUNDS)
-        if app.debug:
-            app.logger.info('Temporary password for ' + self.username + ' set to ' + new_password)
         return new_password
     
     def get_skill_level(self, skill):
