@@ -19,7 +19,7 @@ def index():
     else:
         return 'Not found.', 404
 
-@app.route('/login', methods=['POST'])
+@app.route('/api/login', methods=['POST'])
 def user_login():
     if current_user.is_authenticated:
         return 'You are already logged in.', 400
@@ -36,7 +36,7 @@ def user_login():
         db.session.commit()
         return user_info(user)
 
-@app.route('/who_am_i')
+@app.route('/api/who_am_i')
 def who_am_i():
     current_user = User.query.get(1) # TODO
     if current_user.is_authenticated:
@@ -44,7 +44,7 @@ def who_am_i():
     else:
         return jsonify(None)
 
-@app.route('/user_info/<User:user>')
+@app.route('/api/user_info/<User:user>')
 def user_info(user):
     return jsonify({
         'id': user.id,
@@ -52,7 +52,7 @@ def user_info(user):
         'language': user.current_language.name if user.current_language else None,
     })
 
-@app.route('/register', methods=['POST'])
+@app.route('/api/register', methods=['POST'])
 def user_register():
     username = request.form.get('username', '')
     email = request.form.get('email', '')
@@ -80,7 +80,7 @@ def user_register():
     db.session.commit()
     return jsonify({})
 
-@app.route('/reset_password', methods=['POST'])
+@app.route('/api/reset_password', methods=['POST'])
 def user_reset_password():
     username = request.form.get('username', '')
     
@@ -98,13 +98,13 @@ def user_reset_password():
     
     return jsonify({})
 
-@app.route('/logout', methods=['POST'])
+@app.route('/api/logout', methods=['POST'])
 @login_required
 def user_logout():
     logout_user()
     return jsonify({})
 
-@app.route('/change_password', methods=['GET', 'POST'])
+@app.route('/api/change_password', methods=['GET', 'POST'])
 @login_required
 def change_password():
     old_pw = request.form.get('old_password', '')

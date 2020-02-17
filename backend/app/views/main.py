@@ -26,14 +26,14 @@ def skill_stats(user, skill):
         'total_lessons': total_lessons,
     }
 
-@app.route('/get_languages')
+@app.route('/api/get_languages')
 def get_languages():
     return jsonify({
         lang.name: lang.id
         for lang in Language.query.all()
     })
 
-@app.route('/choose_language/<Language:language>', methods=['POST'])
+@app.route('/api/choose_language/<Language:language>', methods=['POST'])
 @login_required
 def choose_language(language):
     current_user = User.query.get(1) # TODO
@@ -41,7 +41,7 @@ def choose_language(language):
     db.session.commit()
     return jsonify({})
 
-@app.route('/get_skills')
+@app.route('/api/get_skills')
 @language_choice_required
 def get_skills():
     current_user = User.query.get(1) # TODO
@@ -51,7 +51,7 @@ def get_skills():
         for _, v in itertools.groupby(skills, key=lambda s: s.order)
     ])
 
-@app.route('/get_next_lesson/<Skill:skill>')
+@app.route('/api/get_next_lesson/<Skill:skill>')
 @language_choice_required
 def get_next_lesson(skill):
     current_user = User.query.get(1) # TODO
@@ -74,7 +74,7 @@ def get_next_lesson(skill):
         'questions': [q.data for q in lesson.questions],
     })
 
-@app.route('/complete_lesson/<Lesson:lesson>', methods=['POST'])
+@app.route('/api/complete_lesson/<Lesson:lesson>', methods=['POST'])
 @language_choice_required
 def complete_lesson(lesson):
     current_user = User.query.get(1) # TODO
