@@ -19,14 +19,14 @@ login_manager.login_view = 'index'
 
 @app.route('/')
 def index():
-	if not current_user.is_authenticated:
-		return jsonify({ 'error': 'You are not logged in.' }), 401
-	else:
-		return jsonify({ 'error': 'Not found.' }), 404
+    if not current_user.is_authenticated:
+        return jsonify({ 'error': 'You are not logged in.' }), 401
+    else:
+        return jsonify({ 'error': 'Not found.' }), 404
 
 from app import views, models
 
 @login_manager.user_loader
 def load_user(user_id):
-	return models.User.query.get(int(user_id))
+    return models.User.query.get(int(user_id))
 

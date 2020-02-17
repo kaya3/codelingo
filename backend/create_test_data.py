@@ -15,22 +15,22 @@ user1.current_language = languages['python']
 user2.current_language = languages['python']
 
 db.session.add_all([
-	user1, user2, user3,
-	*languages.values(),
+    user1, user2, user3,
+    *languages.values(),
 ])
 
 for lang in LANGUAGES:
-	with open('../lessons/' + lang + '.json') as f:
-		data = json.loads(f.read())
-	
-	for s in data:
-		skill = Skill(s['skill'], languages[lang], s['order'])
-		db.session.add(skill)
-		for l in s['lessons']:
-			lesson = Lesson(skill, l['level'])
-			db.session.add(lesson)
-			for q in l['questions']:
-				question = Question(lesson, q)
-				db.session.add(question)
+    with open('../lessons/' + lang + '.json') as f:
+        data = json.loads(f.read())
+    
+    for s in data:
+        skill = Skill(s['skill'], languages[lang], s['order'])
+        db.session.add(skill)
+        for l in s['lessons']:
+            lesson = Lesson(skill, l['level'])
+            db.session.add(lesson)
+            for q in l['questions']:
+                question = Question(lesson, q)
+                db.session.add(question)
 
 db.session.commit()
