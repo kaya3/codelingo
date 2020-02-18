@@ -2,6 +2,7 @@ config.py
 config.*.py
 app.db
 db_repository/
+apache-site.conf
 
 .DS_Store
 .vscode/

@@ -2,15 +2,15 @@ import re
 
 import passwordmeter
 from flask import jsonify, request
-from flask_login import current_user, login_required, login_user, logout_user
+from flask_login import current_user, login_user, logout_user
 
 from app import app, db
 from app.models.user import User
-from app.util.decorators import force_password_change
+from app.util.decorators import api_login_required, force_password_change
 from app.util.mail import send_email
 
 # TODO: don't do this later
-language_choice_required = login_required = lambda f: f
+api_login_required = language_choice_required = lambda f: f
 
 @app.route('/')
 def index():
@@ -99,13 +99,13 @@ def user_reset_password():
     return jsonify({})
 
 @app.route('/api/logout', methods=['POST'])
-@login_required
+@api_login_required
 def user_logout():
     logout_user()
     return jsonify({})
 
 @app.route('/api/change_password', methods=['GET', 'POST'])
-@login_required
+@api_login_required
 def change_password():
     old_pw = request.form.get('old_password', '')
     new_pw1 = request.form.get('new_password1', '')

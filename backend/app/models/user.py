@@ -18,6 +18,9 @@ class User(db.Model):
     username = db.Column('username', db.String(128), index=True, unique=True, nullable=False)
     email = db.Column('email', db.String, index=True, unique=True, nullable=False)
     
+    db.Index('index_users_username', func.lower(username), unique=True)
+    db.Index('index_users_email', func.lower(email), unique=True)
+    
     password_hash = db.Column('password_hash', db.String, nullable=False)
     tmp_password_hash = db.Column('tmp_password_hash', db.String, nullable=True)
     require_change_password = db.Column('require_change_password', db.Boolean, default=False, nullable=False)

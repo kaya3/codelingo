@@ -2,14 +2,14 @@ import itertools
 import random
 
 from flask import jsonify
-from flask_login import current_user, login_required
+from flask_login import current_user
 
 from app import app, db
 from app.models import Language, Lesson, LessonCompleted, Skill, User
-from app.util.decorators import language_choice_required
+from app.util.decorators import api_login_required, language_choice_required
 
 # TODO: don't do this later
-language_choice_required = login_required = lambda f: f
+api_login_required = language_choice_required = lambda f: f
 
 def skill_stats(user, skill):
     skill_level = user.get_skill_level(skill)
@@ -34,7 +34,7 @@ def get_languages():
     })
 
 @app.route('/api/choose_language/<Language:language>', methods=['POST'])
-@login_required
+@api_login_required
 def choose_language(language):
     current_user = User.query.get(1) # TODO
     current_user.current_language = language
@@ -42,6 +42,7 @@ def choose_language(language):
     return jsonify({})
 
 @app.route('/api/get_skills')
+@api_login_required
 @language_choice_required
 def get_skills():
     current_user = User.query.get(1) # TODO
@@ -52,6 +53,7 @@ def get_skills():
     ])
 
 @app.route('/api/get_next_lesson/<Skill:skill>')
+@api_login_required
 @language_choice_required
 def get_next_lesson(skill):
     current_user = User.query.get(1) # TODO
@@ -75,6 +77,7 @@ def get_next_lesson(skill):
     })
 
 @app.route('/api/complete_lesson/<Lesson:lesson>', methods=['POST'])
+@api_login_required
 @language_choice_required
 def complete_lesson(lesson):
     current_user = User.query.get(1) # TODO

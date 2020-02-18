@@ -1,4 +1,4 @@
-__all__ = ['force_password_change', 'language_choice_required', 'run_in_thread', 'db_mapped']
+__all__ = ['api_login_required', 'force_password_change', 'language_choice_required', 'run_in_thread', 'db_mapped']
 
 from functools import wraps
 from threading import Thread
@@ -7,6 +7,14 @@ from flask_login import current_user
 from werkzeug.routing import BaseConverter, ValidationError
 
 from app import app, db
+
+def api_login_required(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        if not current_user.is_authenticated:
+            return 'You are not logged in.', 403
+        return f(*args, **kwargs)
+    return wrapper
 
 def force_password_change(f):
     @wraps(f)
